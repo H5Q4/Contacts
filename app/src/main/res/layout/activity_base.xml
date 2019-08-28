@@ -7,7 +7,7 @@
     android:background="#6E4775">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/rightIv"
         android:layout_width="34dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,7 +16,7 @@
         app:srcCompat="@android:drawable/ic_menu_revert" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/leftTv"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:paddingLeft="6dp"
@@ -54,7 +54,7 @@
 
     <TextView
         android:id="@+id/topLine"
-        android:layout_width="320dp"
+        android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
