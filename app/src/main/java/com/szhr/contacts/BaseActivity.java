@@ -1,11 +1,13 @@
 package com.szhr.contacts;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewStub;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     private View contentView;
     private TextView leftTv;
     private ImageView rightIv;
+
+    protected ListView listView;
+    protected int currentSelectedPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,4 +47,23 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract int getLayoutResource();
 
     protected abstract void setup(View contentView);
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_DPAD_UP:
+                if (currentSelectedPosition == 0 && listView != null) {
+                    listView.setSelection(listView.getCount() - 1);
+                }
+                break;
+            case KeyEvent.KEYCODE_DPAD_DOWN:
+                if (currentSelectedPosition == listView.getCount() - 1 && listView != null) {
+                    listView.setSelection(0);
+                }
+                break;
+            default:
+                break;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

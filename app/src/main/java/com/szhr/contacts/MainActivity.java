@@ -7,15 +7,17 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import com.szhr.contacts.util.Constants;
+import com.szhr.contacts.util.SharedPrefsUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,8 +27,7 @@ import java.util.Map;
 public class MainActivity extends BaseActivity {
 
     private static final int PERMISSION_REQUEST_CONTACT = 200;
-    private ListView listView;
-    private int currentSelectedPosition;
+
     private View lastSelectedView;
 
     @Override
@@ -48,7 +49,15 @@ public class MainActivity extends BaseActivity {
 
         final String[] data = {"查找联系人", "添加联系人", "显示全部", "存储器状态", "本机号码"};
         final String[] extras = new String[data.length];
-        extras[extras.length - 1] = "无";
+
+        String localNumber = SharedPrefsUtils.getStringPreference(this, Constants.KEY_LOCAL_NUMBER);
+        if (TextUtils.isEmpty(localNumber)) {
+            extras[extras.length - 1] = "无";
+        } else {
+            extras[extras.length - 1] = localNumber;
+        }
+
+
         List<Map<String, Object>> items = new ArrayList<>();
         for (int i = 0; i < data.length; i++) {
             Map<String, Object> item = new HashMap<>();
@@ -61,9 +70,9 @@ public class MainActivity extends BaseActivity {
         SimpleAdapter adapter = new SimpleAdapter(
                 this,
                 items,
-                R.layout.simple_list_item,
+                R.layout.item_main_menu,
                 new String[]{"ordinal", "name", "extra"},
-                new int[]{R.id.typeTv, R.id.nameTv, R.id.extraTv}
+                new int[]{R.id.indicatorTv, R.id.nameTv, R.id.extraTv}
         );
         listView.setAdapter(adapter);
         listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -97,9 +106,9 @@ public class MainActivity extends BaseActivity {
         listView.setSelection(0);
     }
 
-    public void askForContactPermission(){
+    public void askForContactPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
 
                 // Should we show an explanation?
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -114,7 +123,8 @@ public class MainActivity extends BaseActivity {
                         public void onDismiss(DialogInterface dialog) {
                             requestPermissions(
                                     new String[]
-                                            {Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS}
+                                            {Manifest.permission.READ_CONTACTS,
+                                                    Manifest.permission.WRITE_CONTACTS}
                                     , PERMISSION_REQUEST_CONTACT);
                         }
                     });
@@ -128,7 +138,8 @@ public class MainActivity extends BaseActivity {
                     // No explanation needed, we can request the permission.
 
                     ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.READ_CONTACTS, Manifest.permission.WRITE_CONTACTS},
+                            new String[]{Manifest.permission.READ_CONTACTS,
+                                    Manifest.permission.WRITE_CONTACTS},
                             PERMISSION_REQUEST_CONTACT);
 
                     // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
@@ -162,22 +173,5 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_DPAD_UP:
-                if (currentSelectedPosition == 0) {
-                    listView.setSelection(listView.getCount() - 1);
-                }
-                break;
-            case KeyEvent.KEYCODE_DPAD_DOWN:
-               if (currentSelectedPosition == listView.getCount() - 1) {
-                   listView.setSelection(0);
-               }
-                break;
-            default:
-                break;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+
 }

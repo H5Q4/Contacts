@@ -2,6 +2,7 @@ package com.szhr.contacts;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
@@ -12,16 +13,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
+
+import com.szhr.contacts.model.Contact;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsActivity extends BaseActivity {
 
-    private ListView listView;
-    private int currentSelectedPosition;
     private View lastSelectedView;
 
     @Override
@@ -34,8 +34,7 @@ public class ContactsActivity extends BaseActivity {
         listView = contentView.findViewById(R.id.listView);
         listView.setDivider(null);
         listView.setItemsCanFocus(true);
-        insertSimContact("zhangsan", "13278654378");
-        querySimContacts();
+        final List<Contact> contacts = queryPhoneContacts();
         listView.setAdapter(new ViewAdapter(queryPhoneContacts(), this));
         listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -61,7 +60,9 @@ public class ContactsActivity extends BaseActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
+                Intent intent = new Intent(ContactsActivity.this, ContactOptionsActivity.class);
+                intent.putExtra("contact", contacts.get(i));
+                startActivity(intent);
             }
         });
         listView.setSelection(0);
@@ -188,7 +189,7 @@ class ViewAdapter extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.item_contact, null);
-            holder.simOrPhone = convertView.findViewById(R.id.typeTv);
+            holder.simOrPhone = convertView.findViewById(R.id.indicatorTv);
             holder.displayName = convertView.findViewById(R.id.nameTv);
             holder.phoneNumber = convertView.findViewById(R.id.extraTv);
 

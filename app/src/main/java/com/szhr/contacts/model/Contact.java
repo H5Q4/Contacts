@@ -1,6 +1,8 @@
-package com.szhr.contacts;
+package com.szhr.contacts.model;
 
-public class Contact {
+import java.io.Serializable;
+
+public class Contact implements Serializable {
     private boolean fromSim;
     private String displayName;
     private String phoneNumber;
@@ -36,4 +38,6 @@ public class Contact {
     public void setFromSim(boolean fromSim) {
         this.fromSim = fromSim;
     }
+
+
 }
