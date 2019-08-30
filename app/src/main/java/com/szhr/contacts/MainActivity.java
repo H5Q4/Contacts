@@ -105,7 +105,9 @@ public class MainActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case 0 : break;
-                    case 1 : break;
+                    case 1 :
+                        startActivity(new Intent(MainActivity.this, AddContactActivity.class));
+                        break;
                     case 2 : {
                         startActivity(new Intent(MainActivity.this, ContactsActivity.class));
                         break;

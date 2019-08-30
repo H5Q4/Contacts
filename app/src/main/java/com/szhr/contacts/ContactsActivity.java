@@ -182,10 +182,10 @@ public class ContactsActivity extends BaseActivity {
 
         @Override
         public View getView(int i, View convertView, ViewGroup viewGroup) {
-            com.szhr.contacts.ViewAdapter.ViewHolder holder;
+            ViewAdapter.ViewHolder holder;
 
             if (convertView == null) {
-                holder = new com.szhr.contacts.ViewAdapter.ViewHolder();
+                holder = new ViewAdapter.ViewHolder();
                 convertView = inflater.inflate(R.layout.item_contact, null);
                 holder.simOrPhone = convertView.findViewById(R.id.indicatorTv);
                 holder.displayName = convertView.findViewById(R.id.nameTv);
@@ -193,7 +193,7 @@ public class ContactsActivity extends BaseActivity {
 
                 convertView.setTag(holder);
             } else {
-                holder = (com.szhr.contacts.ViewAdapter.ViewHolder) convertView.getTag();
+                holder = (ViewHolder) convertView.getTag();
             }
             Contact contact = contacts.get(i);
             String simOrPhone = contact.isFromSim() ? "S" : "P";

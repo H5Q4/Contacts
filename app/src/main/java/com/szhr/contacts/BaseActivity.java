@@ -73,12 +73,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         Log.d("Key_Down", keyCode + "");
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
-                if (currentSelectedPosition == 0 && listView != null) {
+                if (listView != null && currentSelectedPosition == 0) {
                     listView.setSelection(listView.getCount() - 1);
                 }
                 break;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                if (currentSelectedPosition == listView.getCount() - 1 && listView != null) {
+                if (listView != null && currentSelectedPosition == listView.getCount() - 1) {
                     listView.setSelection(0);
                 }
                 break;
