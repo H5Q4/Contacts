@@ -153,62 +153,64 @@ public class ContactsActivity extends BaseActivity {
 
     }
 
-}
+    static class ViewAdapter extends BaseAdapter {
 
-class ViewAdapter extends BaseAdapter {
+        private List<Contact> contacts;
+        private LayoutInflater inflater;
+        private Context context;
 
-    private List<Contact> contacts;
-    private LayoutInflater inflater;
-    private Context context;
-
-    public ViewAdapter(List<Contact> contacts, Context context) {
-        this.contacts = contacts;
-        this.context = context;
-        this.inflater = LayoutInflater.from(context);
-    }
-
-    @Override
-    public int getCount() {
-        return contacts.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return contacts.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View convertView, ViewGroup viewGroup) {
-        ViewHolder holder;
-
-        if (convertView == null) {
-            holder = new ViewHolder();
-            convertView = inflater.inflate(R.layout.item_contact, null);
-            holder.simOrPhone = convertView.findViewById(R.id.indicatorTv);
-            holder.displayName = convertView.findViewById(R.id.nameTv);
-            holder.phoneNumber = convertView.findViewById(R.id.extraTv);
-
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+        public ViewAdapter(List<Contact> contacts, Context context) {
+            this.contacts = contacts;
+            this.context = context;
+            this.inflater = LayoutInflater.from(context);
         }
-        Contact contact = contacts.get(i);
-        String simOrPhone = contact.isFromSim() ? "S" : "P";
-        holder.simOrPhone.setText(simOrPhone);
-        holder.displayName.setText(contact.getDisplayName());
-        holder.phoneNumber.setText(contact.getPhoneNumber());
 
-        return convertView;
+        @Override
+        public int getCount() {
+            return contacts.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return contacts.get(i);
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View convertView, ViewGroup viewGroup) {
+            com.szhr.contacts.ViewAdapter.ViewHolder holder;
+
+            if (convertView == null) {
+                holder = new com.szhr.contacts.ViewAdapter.ViewHolder();
+                convertView = inflater.inflate(R.layout.item_contact, null);
+                holder.simOrPhone = convertView.findViewById(R.id.indicatorTv);
+                holder.displayName = convertView.findViewById(R.id.nameTv);
+                holder.phoneNumber = convertView.findViewById(R.id.extraTv);
+
+                convertView.setTag(holder);
+            } else {
+                holder = (com.szhr.contacts.ViewAdapter.ViewHolder) convertView.getTag();
+            }
+            Contact contact = contacts.get(i);
+            String simOrPhone = contact.isFromSim() ? "S" : "P";
+            holder.simOrPhone.setText(simOrPhone);
+            holder.displayName.setText(contact.getDisplayName());
+            holder.phoneNumber.setText(contact.getPhoneNumber());
+
+            return convertView;
+        }
+
+        static class ViewHolder {
+            TextView simOrPhone;
+            TextView displayName;
+            TextView phoneNumber;
+        }
     }
 
-    static class ViewHolder {
-        TextView simOrPhone;
-        TextView displayName;
-        TextView phoneNumber;
-    }
 }
+
+

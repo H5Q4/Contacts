@@ -1,6 +1,9 @@
 package com.szhr.contacts;
 
+import android.app.Instrumentation;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewStub;
@@ -18,6 +21,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private View contentView;
     private TextView leftTv;
     private ImageView rightIv;
+    private TextView titleTv;
 
     protected ListView listView;
     protected int currentSelectedPosition;
@@ -31,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_base);
 
         viewStub = findViewById(R.id.viewStub);
+        titleTv = findViewById(R.id.titleTv);
         leftTv = findViewById(R.id.leftTv);
         rightIv = findViewById(R.id.rightIv);
 
@@ -44,12 +49,28 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setupBottom(TextView leftTv, ImageView rightIv) {}
 
+    protected void setTitle(String title) {
+        titleTv.setText(title);
+    }
+
     protected abstract int getLayoutResource();
 
     protected abstract void setup(View contentView);
 
+    protected void onClickBottomLeft() {
+        // 模拟 OK 键
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Instrumentation inst = new Instrumentation();
+                inst.sendKeyDownUpSync(KeyEvent.KEYCODE_DPAD_CENTER);
+            }
+        });
+    }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d("Key_Down", keyCode + "");
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
                 if (currentSelectedPosition == 0 && listView != null) {
@@ -61,9 +82,22 @@ public abstract class BaseActivity extends AppCompatActivity {
                     listView.setSelection(0);
                 }
                 break;
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+                Log.d("Key_Down", "dpad_center");
+                onClickDpadCenter();
+                break;
+            case KeyEvent.KEYCODE_MENU: // TODO replace with actual key
+                onClickBottomLeft();
+                break;
             default:
                 break;
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    protected void onClickDpadCenter() {
+        // empty implementation
+    }
+
+
 }
