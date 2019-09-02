@@ -22,6 +22,7 @@ import java.util.List;
 
 public class ContactsActivity extends BaseActivity {
 
+    private static final String TAG = ContactsActivity.class.getSimpleName();
     private View lastSelectedView;
 
     @Override
@@ -34,6 +35,7 @@ public class ContactsActivity extends BaseActivity {
         listView = contentView.findViewById(R.id.listView);
         listView.setDivider(null);
         listView.setItemsCanFocus(true);
+//        querySimContacts();
         final List<Contact> contacts = queryPhoneContacts();
         listView.setAdapter(new ViewAdapter(queryPhoneContacts(), this));
         listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -85,6 +87,7 @@ public class ContactsActivity extends BaseActivity {
         while (cursor.moveToNext()) {
             String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
             String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+//            Log.d(TAG, cursor.getString(cursor.getColumnIndex(ContactsContract.RawContacts.ACCOUNT_TYPE)));
             items.add(new Contact(displayName, phoneNumber));
         }
 

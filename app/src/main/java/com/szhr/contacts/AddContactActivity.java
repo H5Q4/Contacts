@@ -66,6 +66,7 @@ public class AddContactActivity extends BaseActivity {
                 Intent intent = new Intent(AddContactActivity.this, EditContactActivity.class);
                 intent.putExtra(EditContactActivity.TYPE_SIM, i == 0);
                 startActivity(intent);
+                finish();
             }
         });
         listView.setSelection(0);
