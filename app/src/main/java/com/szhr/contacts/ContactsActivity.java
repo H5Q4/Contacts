@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import java.util.List;
 public class ContactsActivity extends BaseActivity {
 
     private static final String TAG = ContactsActivity.class.getSimpleName();
+    public static final String KEY_QUERY_PARAM = "query_param";
     private View lastSelectedView;
 
     @Override
@@ -37,7 +39,7 @@ public class ContactsActivity extends BaseActivity {
         listView.setItemsCanFocus(true);
 //        querySimContacts();
         final List<Contact> contacts = queryPhoneContacts();
-        listView.setAdapter(new ViewAdapter(queryPhoneContacts(), this));
+        listView.setAdapter(new ViewAdapter(contacts, this));
         listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view,
@@ -79,8 +81,15 @@ public class ContactsActivity extends BaseActivity {
      * 查询手机联系人
      */
     private List<Contact> queryPhoneContacts() {
+        String searchString = getIntent().getStringExtra(KEY_QUERY_PARAM);
+        String selection = null;
+        String[] selectionArgs = null;
+        if (!TextUtils.isEmpty(searchString)) {
+            selection = ContactsContract.Contacts.DISPLAY_NAME + " LIKE ?";
+            selectionArgs = new String[]{"%" + searchString + "%"};
+        }
         List<Contact> items = new ArrayList<>();
-        Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+        Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, selection, selectionArgs, null);
         if (cursor == null) {
             return items;
         }

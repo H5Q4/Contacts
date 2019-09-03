@@ -104,7 +104,9 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
-                    case 0 : break;
+                    case 0 :
+                        startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                        break;
                     case 1 :
                         startActivity(new Intent(MainActivity.this, AddContactActivity.class));
                         break;
