@@ -1,5 +1,6 @@
 package com.szhr.contacts;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -84,18 +85,22 @@ public class ContactsActivity extends BaseActivity {
         String searchString = getIntent().getStringExtra(KEY_QUERY_PARAM);
         String selection = null;
         String[] selectionArgs = null;
+
         if (!TextUtils.isEmpty(searchString)) {
             selection = ContactsContract.Contacts.DISPLAY_NAME + " LIKE ?";
             selectionArgs = new String[]{"%" + searchString + "%"};
         }
+
+        String[] projection = {ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER};
         List<Contact> items = new ArrayList<>();
-        Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, selection, selectionArgs, null);
+        Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                projection, selection, selectionArgs, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
         if (cursor == null) {
             return items;
         }
         while (cursor.moveToNext()) {
-            String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-            String phoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            String displayName = cursor.getString(0);
+            String phoneNumber = cursor.getString(1);
 //            Log.d(TAG, cursor.getString(cursor.getColumnIndex(ContactsContract.RawContacts.ACCOUNT_TYPE)));
             items.add(new Contact(displayName, phoneNumber));
         }
@@ -111,7 +116,8 @@ public class ContactsActivity extends BaseActivity {
         String phoneNumber;
 
         Uri simUri = Uri.parse("content://icc/adn");
-        Cursor cursorSim = this.getContentResolver().query(simUri, null, null, null, null);
+        String[] projection = {"name", "number"};
+        Cursor cursorSim = this.getContentResolver().query(simUri, projection, null, null, "name");
 
         if (cursorSim == null) return;
 
@@ -139,7 +145,7 @@ public class ContactsActivity extends BaseActivity {
     }
 
     public void updateSimContact(String oldName, String oldPhone, String newName,
-                              String newPhone) {
+                                 String newPhone) {
         Uri simUri = Uri.parse("content://icc/adn");
         ContentValues values = new ContentValues();
         values.put("tag", oldName);

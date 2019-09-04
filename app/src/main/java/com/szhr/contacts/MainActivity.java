@@ -114,7 +114,9 @@ public class MainActivity extends BaseActivity {
                         startActivity(new Intent(MainActivity.this, ContactsActivity.class));
                         break;
                     }
-                    case 3 : break;
+                    case 3 :
+                        startActivity(new Intent(MainActivity.this, StorageStateActivity.class));
+                        break;
                     case 4 : {
                         startActivityForResult(new Intent(MainActivity.this, EditLocalNumberActivity.class),
                                 REQUEST_CODE_LOCAL_NUMBER);
