@@ -66,7 +66,7 @@ public class ContactsActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(ContactsActivity.this, ContactOptionsActivity.class);
-                intent.putExtra("contact", contacts.get(i));
+                intent.putExtra(ContactOptionsActivity.KEY_CONTACT, contacts.get(i));
                 startActivity(intent);
             }
         });

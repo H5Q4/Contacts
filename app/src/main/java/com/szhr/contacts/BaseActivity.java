@@ -39,12 +39,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         leftTv = findViewById(R.id.leftTv);
         rightIv = findViewById(R.id.rightIv);
 
-        setupBottom(leftTv, rightIv);
 
         viewStub.setLayoutResource(getLayoutResource());
         contentView = viewStub.inflate();
 
         setup(contentView);
+        setupBottom(leftTv, rightIv);
     }
 
     protected void setupBottom(TextView leftTv, ImageView rightIv) {}

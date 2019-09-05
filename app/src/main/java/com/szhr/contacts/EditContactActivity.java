@@ -1,14 +1,15 @@
 package com.szhr.contacts;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,19 +18,22 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.szhr.contacts.model.Contact;
 
-import org.w3c.dom.Text;
-
-import java.util.Objects;
+import java.util.ArrayList;
 
 public class EditContactActivity extends BaseActivity {
 
     private static final String TAG = EditContactActivity.class.getSimpleName();
     public static final String TYPE_SIM = "sim";
+    public static final String FOR_UPDATE = "update";
+
     private TextInputLayout nameInputLayout;
     private TextInputLayout numberInputLayout;
     private TextInputEditText nameEt;
     private TextInputEditText numberEt;
+    private boolean forUpdate;
+    private Contact contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +54,22 @@ public class EditContactActivity extends BaseActivity {
         nameEt = contentView.findViewById(R.id.nameEt);
         numberEt = contentView.findViewById(R.id.numberEt);
 
+        forUpdate = getIntent().getBooleanExtra(FOR_UPDATE, false);
 
+        if (forUpdate) {
+            contact = (Contact) getIntent().getSerializableExtra(ContactOptionsActivity.KEY_CONTACT);
+            if (contact != null) {
+                nameEt.setText(contact.getDisplayName());
+                numberEt.setText(contact.getPhoneNumber());
+            }
+        }
 
     }
 
+
     @Override
     protected void onClickBottomLeft() {
+
         String name = nameEt.getText().toString().trim();
         String number = numberEt.getText().toString().trim();
 
@@ -71,9 +85,17 @@ public class EditContactActivity extends BaseActivity {
         boolean forSim = getIntent().getBooleanExtra(TYPE_SIM, false);
 
         if (!forSim) {
-            insertPhoneContact(name, number);
+            if (!forUpdate) {
+                insertPhoneContact(name, number);
+            } else {
+                updatePhoneContact(contact.getDisplayName(), name, number);
+            }
         } else {
-            insertSimContact(name, number);
+            if (!forUpdate) {
+                insertSimContact(name, number);
+            }else {
+                updateSimContact(contact.getDisplayName(), contact.getPhoneNumber(), name, number);
+            }
         }
 
         startActivity(new Intent(EditContactActivity.this, ContactsActivity.class));
@@ -89,24 +111,29 @@ public class EditContactActivity extends BaseActivity {
             Toast.makeText(this, "号码添加失败", Toast.LENGTH_SHORT).show();
             return;
         }
-        long contact_id = ContentUris.parseId(contactUri);
-        values.put(ContactsContract.Data.RAW_CONTACT_ID, contact_id);
-        values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
-        values.put(ContactsContract.CommonDataKinds.Phone.NUMBER, number);
-        getContentResolver().insert(ContactsContract.Data.CONTENT_URI, values);
-        values.clear();
+        long contactId = ContentUris.parseId(contactUri);
 
-        values.put(ContactsContract.Data.RAW_CONTACT_ID, contact_id);
-        values.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE);
-        values.put(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, name);
-        getContentResolver().insert(ContactsContract.Data.CONTENT_URI, values);
+        final ArrayList<ContentProviderOperation> ops = new ArrayList<>();
 
-        Toast.makeText(this, "号码添加成功", Toast.LENGTH_SHORT).show();
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValue(ContactsContract.Data.RAW_CONTACT_ID, contactId)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
+                .build());
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValue(ContactsContract.Data.RAW_CONTACT_ID, contactId)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, name)
+                .build());
 
+        try {
+            getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+            Toast.makeText(this, "号码添加成功", Toast.LENGTH_SHORT).show();
+        } catch (OperationApplicationException | RemoteException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "号码添加失败", Toast.LENGTH_SHORT).show();
+        }
 
-    }
-
-    private void updatePhoneContact(String name, String number) {
 
     }
 
@@ -134,5 +161,82 @@ public class EditContactActivity extends BaseActivity {
         values.put("newNumber", newPhone);
         int update = getContentResolver().update(simUri, values, null, null);
         Log.d("SimContact", "update =" + update);
+    }
+
+
+    /* Update phone number with raw contact id and phone type.*/
+    private void updatePhoneContact(String oldName, String name, String number) {
+
+        String contactId = getRawContactId(oldName) + "";
+
+        String where = ContactsContract.Data.RAW_CONTACT_ID + " = ? AND "
+                + ContactsContract.Data.MIMETYPE + " = ?";
+
+        String[] nameParams = new String[]{contactId,
+                ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE};
+        String[] numberParams = new String[]{contactId,
+                ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE};
+
+        final ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+
+        if (!name.isEmpty()) {
+            ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                    .withSelection(where, nameParams)
+                    .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, name)
+                    .build());
+        }
+        if (!number.isEmpty()) {
+            ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
+                    .withSelection(where, numberParams)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
+                    .build());
+        }
+        try {
+            getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
+
+            Toast.makeText(this, "号码更新成功", Toast.LENGTH_SHORT).show();
+        } catch (OperationApplicationException | RemoteException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "号码更新失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /* Get raw contact id by contact given name and family name.
+     *  Return raw contact id.
+     * */
+    private long getRawContactId(String displayName) {
+        ContentResolver contentResolver = getContentResolver();
+
+        // Query raw_contacts table by display name field ( given_name family_name ) to get raw contact id.
+
+        // Create query column array.
+        String[] queryColumnArr = {ContactsContract.RawContacts._ID};
+
+        // Create where condition clause.
+        String whereClause = ContactsContract.RawContacts.DISPLAY_NAME_PRIMARY + " = '" + displayName
+                + "'";
+
+        // Query raw contact id through RawContacts uri.
+        Uri rawContactUri = ContactsContract.RawContacts.CONTENT_URI;
+
+        // Return the query cursor.
+        Cursor cursor = contentResolver.query(rawContactUri, queryColumnArr, whereClause, null, null);
+
+        long rawContactId = -1;
+
+        if (cursor != null) {
+            // Get contact count that has same display name, generally it should be one.
+            int queryResultCount = cursor.getCount();
+            // This check is used to avoid cursor index out of bounds exception. android.database.CursorIndexOutOfBoundsException
+            if (queryResultCount > 0) {
+                // Move to the first row in the result cursor.
+                cursor.moveToFirst();
+                // Get raw_contact_id.
+                rawContactId = cursor.getLong(cursor.getColumnIndex(ContactsContract.RawContacts._ID));
+            }
+            cursor.close();
+        }
+
+        return rawContactId;
     }
 }
