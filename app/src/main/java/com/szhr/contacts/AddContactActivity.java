@@ -23,11 +23,7 @@ public class AddContactActivity extends BaseListActivity {
         setTitle("存储到");
 
         final String[] data = {"SIM卡电话簿", "手机电话簿"};
-        for (int i = 0; i < data.length; i++) {
-            Map<String, String> item = new HashMap<>();
-            item.put(ITEM_NAME, data[i]);
-            items.add(item);
-        }
+        setListData(data);
 
         setIndicatorType(INDICATOR_TYPE_INDEX);
     }

@@ -5,8 +5,6 @@ import android.os.Environment;
 import android.os.RemoteException;
 import android.os.StatFs;
 import android.text.format.Formatter;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.internal.telephony.AdnRecord;

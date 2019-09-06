@@ -29,11 +29,7 @@ public class ContactOptionsActivity extends BaseListActivity {
 
         final String[] data = {"拨号", "IP拨号", "写短信", "查看内容", "编辑", "删除当前记录", "删除全部记录", "复制当前记录"
                 , "复制全部记录", "高级复制", "发送名片"};
-        for (int i = 0; i < data.length; i++) {
-            Map<String, String> item = new HashMap<>();
-            item.put(ITEM_NAME, data[i]);
-            items.add(item);
-        }
+        setListData(data);
 
         setIndicatorType(INDICATOR_TYPE_CYCLE);
 

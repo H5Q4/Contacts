@@ -2,7 +2,6 @@ package com.szhr.contacts.base;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -13,15 +12,10 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.szhr.contacts.AddContactActivity;
-import com.szhr.contacts.ContactsActivity;
-import com.szhr.contacts.EditLocalNumberActivity;
-import com.szhr.contacts.MainActivity;
 import com.szhr.contacts.R;
-import com.szhr.contacts.SearchActivity;
-import com.szhr.contacts.StorageStateActivity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -86,6 +80,30 @@ public class BaseListActivity extends BaseActivity {
             }
         });
         listView.setSelection(0);
+    }
+
+    protected void addListItem(String name, String extra) {
+        Map<String, String> item = new HashMap<>();
+        item.put(ITEM_NAME, name);
+        item.put(ITEM_EXTRA, extra);
+        items.add(item);
+        notifyDataSetChanged();
+    }
+
+    protected void addListItem(String name) {
+        Map<String, String> item = new HashMap<>();
+        item.put(ITEM_NAME, name);
+        items.add(item);
+        notifyDataSetChanged();
+    }
+
+    protected void setListData(String[] names) {
+        for (String name : names) {
+            Map<String, String> item = new HashMap<>();
+            item.put(ITEM_NAME, name);
+            items.add(item);
+        }
+        notifyDataSetChanged();
     }
 
     protected void onClickListItem(View view, int position) {

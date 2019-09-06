@@ -33,23 +33,18 @@ public class MainActivity extends BaseListActivity {
         super.onCreate(savedInstanceState);
         askForContactPermission();
 
-        final String[] data = {"查找联系人", "添加联系人", "显示全部", "存储器状态", "本机号码"};
-        final String[] extras = new String[data.length];
+        final String[] data = {"查找联系人", "添加联系人", "显示全部", "存储器状态"};
+        setListData(data);
 
         String localNumber = SharedPrefsUtils.getStringPreference(this, Constants.KEY_LOCAL_NUMBER);
+        String extra;
         if (TextUtils.isEmpty(localNumber)) {
-            extras[extras.length - 1] = "无";
+            extra = "无";
         } else {
-            extras[extras.length - 1] = localNumber;
+            extra = localNumber;
         }
 
-
-        for (int i = 0; i < data.length; i++) {
-            Map<String, String> item = new HashMap<>();
-            item.put("name", data[i]);
-            item.put("extra", extras[i]);
-            items.add(item);
-        }
+        addListItem("本机号码", extra);
 
         setIndicatorType(INDICATOR_TYPE_INDEX);
     }
