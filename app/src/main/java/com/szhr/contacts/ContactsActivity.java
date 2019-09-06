@@ -1,82 +1,60 @@
 package com.szhr.contacts;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.szhr.contacts.base.BaseListActivity;
 import com.szhr.contacts.model.Contact;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class ContactsActivity extends BaseActivity {
+public class ContactsActivity extends BaseListActivity {
 
     private static final String TAG = ContactsActivity.class.getSimpleName();
     public static final String KEY_QUERY_PARAM = "query_param";
-    private View lastSelectedView;
+
+    private List<Contact> contacts;
 
     @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_contacts;
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    @Override
-    protected void setup(View contentView) {
-        listView = contentView.findViewById(R.id.listView);
-        listView.setDivider(null);
-        listView.setItemsCanFocus(true);
-//        querySimContacts();
-        final List<Contact> contacts = queryPhoneContacts();
-        listView.setAdapter(new ViewAdapter(contacts, this));
-        listView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view,
-                                       int position, long id) {
-                currentSelectedPosition = position;
-                if (lastSelectedView != null) {
-                    lastSelectedView.setVisibility(View.GONE);
-                }
-                View extraTv = view.findViewById(R.id.extraTv);
-                lastSelectedView = extraTv;
-                if (extraTv != null) {
-                    extraTv.setVisibility(View.VISIBLE);
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(ContactsActivity.this, ContactOptionsActivity.class);
-                intent.putExtra(ContactOptionsActivity.KEY_CONTACT, contacts.get(i));
-                startActivity(intent);
-            }
-        });
-        listView.setSelection(0);
-    }
-
-    @Override
-    protected void setupBottom(TextView leftTv, ImageView rightIv) {
         leftTv.setText("选项");
+
+        contacts = queryPhoneContacts();
+
+        for (Contact contact : contacts) {
+            Map<String, String> item = new HashMap<>();
+            item.put(ITEM_NAME, contact.getDisplayName());
+            item.put(ITEM_EXTRA, contact.getPhoneNumber());
+            items.add(item);
+        }
+
+        setIndicatorType(INDICATOR_TYPE_CUSTOM);
     }
+
+    @Override
+    protected int getItemIndicatorDrawable(int i) {
+        return contacts.get(i).isFromSim() ? R.drawable.ic_sim_card : R.drawable.ic_phone;
+    }
+
+    @Override
+    protected void onClickListItem(View view, int position) {
+        Intent intent = new Intent(ContactsActivity.this, ContactOptionsActivity.class);
+        intent.putExtra(ContactOptionsActivity.KEY_CONTACT, contacts.get(position));
+        startActivity(intent);
+    }
+
 
     /**
      * 查询手机联系人
@@ -169,64 +147,6 @@ public class ContactsActivity extends BaseActivity {
         int delete = getContentResolver().delete(simUri, where, null);
         Log.d("SimContact", "delete =" + delete);
 
-    }
-
-    static class ViewAdapter extends BaseAdapter {
-
-        private List<Contact> contacts;
-        private LayoutInflater inflater;
-        private Context context;
-
-        public ViewAdapter(List<Contact> contacts, Context context) {
-            this.contacts = contacts;
-            this.context = context;
-            this.inflater = LayoutInflater.from(context);
-        }
-
-        @Override
-        public int getCount() {
-            return contacts.size();
-        }
-
-        @Override
-        public Object getItem(int i) {
-            return contacts.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View convertView, ViewGroup viewGroup) {
-            ViewAdapter.ViewHolder holder;
-
-            if (convertView == null) {
-                holder = new ViewAdapter.ViewHolder();
-                convertView = inflater.inflate(R.layout.item_contact, null);
-                holder.simOrPhone = convertView.findViewById(R.id.indicatorTv);
-                holder.displayName = convertView.findViewById(R.id.nameTv);
-                holder.phoneNumber = convertView.findViewById(R.id.extraTv);
-
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-            Contact contact = contacts.get(i);
-            String simOrPhone = contact.isFromSim() ? "S" : "P";
-            holder.simOrPhone.setText(simOrPhone);
-            holder.displayName.setText(contact.getDisplayName());
-            holder.phoneNumber.setText(contact.getPhoneNumber());
-
-            return convertView;
-        }
-
-        static class ViewHolder {
-            TextView simOrPhone;
-            TextView displayName;
-            TextView phoneNumber;
-        }
     }
 
 }

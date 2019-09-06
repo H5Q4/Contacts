@@ -13,6 +13,7 @@ import com.android.internal.telephony.AdnRecord;
 import com.android.internal.telephony.IIccPhoneBook;
 import com.android.internal.telephony.IccConstants;
 import com.android.os.ServiceManager;
+import com.szhr.contacts.base.BaseActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,28 +25,17 @@ public class StorageStateActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_storage_state);
 
         setTitle("存储器状态");
-    }
-
-    @Override
-    protected void setupBottom(TextView leftTv, ImageView rightIv) {
         leftTv.setText("");
-    }
 
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_storage_state;
-    }
-
-    @Override
-    protected void setup(View contentView) {
-        TextView simCapacityTv = contentView.findViewById(R.id.simCapacityTv);
-        TextView simUsedTv = contentView.findViewById(R.id.simUsedTv);
-        TextView simFreeTv = contentView.findViewById(R.id.simFreeTv);
-        TextView phoneCapacityTv = contentView.findViewById(R.id.phoneCapacityTv);
-        TextView phoneUsedTv = contentView.findViewById(R.id.phoneUsedTv);
-        TextView phoneFreeTv = contentView.findViewById(R.id.phoneFreeTv);
+        TextView simCapacityTv = findViewById(R.id.simCapacityTv);
+        TextView simUsedTv = findViewById(R.id.simUsedTv);
+        TextView simFreeTv = findViewById(R.id.simFreeTv);
+        TextView phoneCapacityTv = findViewById(R.id.phoneCapacityTv);
+        TextView phoneUsedTv = findViewById(R.id.phoneUsedTv);
+        TextView phoneFreeTv = findViewById(R.id.phoneFreeTv);
 
         // TODO Uncomment following code.
 //        try {
@@ -69,6 +59,7 @@ public class StorageStateActivity extends BaseActivity {
                 Formatter.formatFileSize(this, totalInternalMemorySize - availableInternalMemorySize)));
 
     }
+
 
     /**
      * 获取手机内部空间总大小

@@ -1,44 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:orientation="vertical"
     tools:context=".EditContactActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameInputLayout"
+    <EditText
+        android:id="@+id/nameEt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:drawableLeft="@drawable/ic_person"
+        android:drawablePadding="8dp"
+        android:hint="名字"
+        android:textSize="18sp"/>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameEt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_person"
-            android:drawablePadding="8dp"
-            android:hint="名字" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/numberInputLayout"
-        android:layout_width="0dp"
+    <EditText
+        android:id="@+id/numberEt"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_phone"
+        android:drawablePadding="8dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameInputLayout">
+        android:textSize="18sp"
+        android:hint="电话号码" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/numberEt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_phone"
-            android:drawablePadding="8dp"
-            android:hint="电话号码" />
-    </com.google.android.material.textfield.TextInputLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

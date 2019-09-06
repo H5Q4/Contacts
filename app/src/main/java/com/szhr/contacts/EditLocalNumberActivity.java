@@ -3,9 +3,9 @@ package com.szhr.contacts;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.EditText;
 
+import com.szhr.contacts.base.BaseActivity;
 import com.szhr.contacts.util.Constants;
 import com.szhr.contacts.util.SharedPrefsUtils;
 
@@ -16,22 +16,17 @@ public class EditLocalNumberActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_local_number);
         setTitle("本机号码");
-    }
 
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_edit_local_number;
-    }
-
-    @Override
-    protected void setup(View contentView) {
-        numberEt = contentView.findViewById(R.id.numberEt);
+        numberEt = findViewById(R.id.numberEt);
         String number = SharedPrefsUtils.getStringPreference(this, Constants.KEY_LOCAL_NUMBER);
         if (!TextUtils.isEmpty(number)) {
             numberEt.setText(number);
+            numberEt.setSelection(number.length());
         }
     }
+
 
     @Override
     protected void onClickBottomLeft() {

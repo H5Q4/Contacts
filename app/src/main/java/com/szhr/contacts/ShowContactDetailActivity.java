@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.szhr.contacts.base.BaseActivity;
 import com.szhr.contacts.model.Contact;
 
 public class ShowContactDetailActivity extends BaseActivity {
@@ -12,32 +13,20 @@ public class ShowContactDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_show_contact_detail);
 
         setTitle("查看内容");
-    }
+        leftTv.setText("");
 
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_show_contact_detail;
-    }
-
-    @Override
-    protected void setup(View contentView) {
         Contact contact = (Contact) getIntent().getSerializableExtra(ContactOptionsActivity.KEY_CONTACT);
 
-        TextView nameTv = contentView.findViewById(R.id.nameTv);
-        TextView numberTv = contentView.findViewById(R.id.numberTv);
+        TextView nameTv = findViewById(R.id.nameTv);
+        TextView numberTv = findViewById(R.id.numberTv);
 
         if (contact != null) {
             nameTv.setText(contact.getDisplayName());
             numberTv.setText(contact.getPhoneNumber());
         }
-
     }
 
-
-    @Override
-    protected void setupBottom(TextView leftTv, ImageView rightIv) {
-        leftTv.setText("");
-    }
 }

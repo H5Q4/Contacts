@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:orientation="vertical"
     tools:context=".StorageStateActivity">
 
     <TextView
@@ -14,9 +14,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="SIM卡总空间："
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/simUsedTv"
@@ -25,9 +23,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="已用空间："
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/simCapacityTv" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/simFreeTv"
@@ -36,9 +32,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="剩余空间："
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/simUsedTv" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/phoneCapacityTv"
@@ -47,9 +41,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="手机总空间："
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/simFreeTv" />
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/phoneUsedTv"
@@ -58,9 +50,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="已用空间："
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneCapacityTv" />
+        android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/phoneFreeTv"
@@ -69,7 +59,5 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="剩余空间："
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phoneUsedTv" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:textSize="18sp" />
+</LinearLayout>

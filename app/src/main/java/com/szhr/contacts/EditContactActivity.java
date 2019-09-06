@@ -13,11 +13,14 @@ import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.TextureView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.szhr.contacts.base.BaseActivity;
 import com.szhr.contacts.model.Contact;
 
 import java.util.ArrayList;
@@ -28,31 +31,20 @@ public class EditContactActivity extends BaseActivity {
     public static final String TYPE_SIM = "sim";
     public static final String FOR_UPDATE = "update";
 
-    private TextInputLayout nameInputLayout;
-    private TextInputLayout numberInputLayout;
-    private TextInputEditText nameEt;
-    private TextInputEditText numberEt;
+    private EditText nameEt;
+    private EditText numberEt;
     private boolean forUpdate;
     private Contact contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_edit_contact);
 
         setTitle("编辑内容");
-    }
 
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_edit_contact;
-    }
-
-    @Override
-    protected void setup(View contentView) {
-        nameInputLayout = contentView.findViewById(R.id.nameInputLayout);
-        numberInputLayout = contentView.findViewById(R.id.numberInputLayout);
-        nameEt = contentView.findViewById(R.id.nameEt);
-        numberEt = contentView.findViewById(R.id.numberEt);
+        nameEt = findViewById(R.id.nameEt);
+        numberEt = findViewById(R.id.numberEt);
 
         forUpdate = getIntent().getBooleanExtra(FOR_UPDATE, false);
 
@@ -61,9 +53,10 @@ public class EditContactActivity extends BaseActivity {
             if (contact != null) {
                 nameEt.setText(contact.getDisplayName());
                 numberEt.setText(contact.getPhoneNumber());
+
+                nameEt.setSelection(contact.getDisplayName().length());
             }
         }
-
     }
 
 
@@ -72,15 +65,6 @@ public class EditContactActivity extends BaseActivity {
 
         String name = nameEt.getText().toString().trim();
         String number = numberEt.getText().toString().trim();
-
-        if (TextUtils.isEmpty(name)) {
-            nameInputLayout.setError("名字不能为空");
-            return;
-        }
-        if (TextUtils.isEmpty(number)) {
-            numberInputLayout.setError("电话号码不能为空");
-            return;
-        }
 
         boolean forSim = getIntent().getBooleanExtra(TYPE_SIM, false);
 
@@ -115,16 +99,21 @@ public class EditContactActivity extends BaseActivity {
 
         final ArrayList<ContentProviderOperation> ops = new ArrayList<>();
 
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValue(ContactsContract.Data.RAW_CONTACT_ID, contactId)
-                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
-                .build());
-        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-                .withValue(ContactsContract.Data.RAW_CONTACT_ID, contactId)
-                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
-                .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, name)
-                .build());
+        if (!TextUtils.isEmpty(name)) {
+            ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValue(ContactsContract.Data.RAW_CONTACT_ID, contactId)
+                    .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                    .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
+                    .build());
+        }
+
+        if (!TextUtils.isEmpty(number)) {
+            ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                    .withValue(ContactsContract.Data.RAW_CONTACT_ID, contactId)
+                    .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)
+                    .withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME, name)
+                    .build());
+        }
 
         try {
             getContentResolver().applyBatch(ContactsContract.AUTHORITY, ops);
@@ -179,13 +168,13 @@ public class EditContactActivity extends BaseActivity {
 
         final ArrayList<ContentProviderOperation> ops = new ArrayList<>();
 
-        if (!name.isEmpty()) {
+        if (!TextUtils.isEmpty(name)) {
             ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
                     .withSelection(where, nameParams)
                     .withValue(ContactsContract.CommonDataKinds.StructuredName.DISPLAY_NAME, name)
                     .build());
         }
-        if (!number.isEmpty()) {
+        if (!TextUtils.isEmpty(number)) {
             ops.add(ContentProviderOperation.newUpdate(ContactsContract.Data.CONTENT_URI)
                     .withSelection(where, numberParams)
                     .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, number)
