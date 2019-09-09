@@ -19,9 +19,6 @@ import com.szhr.contacts.base.BaseListActivity;
 import com.szhr.contacts.util.Constants;
 import com.szhr.contacts.util.SharedPrefsUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class MainActivity extends BaseListActivity {
 
     private static final int PERMISSION_REQUEST_CONTACT = 200;
@@ -32,6 +29,11 @@ public class MainActivity extends BaseListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         askForContactPermission();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         final String[] data = {"查找联系人", "添加联系人", "显示全部", "存储器状态"};
         setListData(data);

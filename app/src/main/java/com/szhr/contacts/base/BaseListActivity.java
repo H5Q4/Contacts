@@ -79,7 +79,7 @@ public class BaseListActivity extends BaseActivity {
                 onClickListItem(view, i);
             }
         });
-        listView.setSelection(0);
+//        listView.setSelection(0);
     }
 
     protected void addListItem(String name, String extra) {
@@ -87,17 +87,17 @@ public class BaseListActivity extends BaseActivity {
         item.put(ITEM_NAME, name);
         item.put(ITEM_EXTRA, extra);
         items.add(item);
-        notifyDataSetChanged();
     }
 
     protected void addListItem(String name) {
         Map<String, String> item = new HashMap<>();
         item.put(ITEM_NAME, name);
         items.add(item);
-        notifyDataSetChanged();
     }
 
     protected void setListData(String[] names) {
+        items.clear();
+
         for (String name : names) {
             Map<String, String> item = new HashMap<>();
             item.put(ITEM_NAME, name);

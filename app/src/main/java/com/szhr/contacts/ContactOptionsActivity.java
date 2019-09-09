@@ -37,17 +37,21 @@ public class ContactOptionsActivity extends BaseListActivity {
 
     @Override
     protected void onClickListItem(View view, int position) {
-        Intent intent;
+        Intent intent = new Intent();
+        intent.putExtra(KEY_CONTACT, contact);
+
         switch (position) {
             case 3:
-                intent = new Intent(ContactOptionsActivity.this, ShowContactDetailActivity.class);
-                intent.putExtra(KEY_CONTACT, contact);
+                intent.setClass(this, ShowContactDetailActivity.class);
                 startActivity(intent);
                 break;
             case 4:
-                intent = new Intent(ContactOptionsActivity.this, EditContactActivity.class);
+                intent.setClass(ContactOptionsActivity.this, EditContactActivity.class);
                 intent.putExtra(EditContactActivity.FOR_UPDATE, true);
-                intent.putExtra(KEY_CONTACT, contact);
+                startActivity(intent);
+                break;
+            case 5:
+                intent.setClass(this, DeleteConfirmActivity.class);
                 startActivity(intent);
             default:
                 break;
