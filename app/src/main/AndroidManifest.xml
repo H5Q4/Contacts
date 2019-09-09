@@ -14,7 +14,7 @@
         <activity android:name=".StorageStateActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".EditContactActivity" />
-        <activity android:name=".AddContactActivity" />
+        <activity android:name=".SelectSimOrPhoneActivity" />
         <activity android:name=".EditLocalNumberActivity" />
         <activity android:name=".ContactOptionsActivity" />
         <activity android:name=".ContactsActivity" />

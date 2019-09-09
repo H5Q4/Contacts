@@ -80,8 +80,24 @@ public class ContactOperations {
 
     }
 
-    public void deleteAllPhoneContacts() {
+    public static boolean deleteAllPhoneContacts(ContentResolver resolver) {
+        ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+        ops.add(ContentProviderOperation.newDelete(ContactsContract.RawContacts.CONTENT_URI).build());
 
+        // Delete raw_contacts table related data.
+        ops.add(ContentProviderOperation.newDelete(ContactsContract.Data.CONTENT_URI).build());
+        try {
+            resolver.applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (RemoteException | OperationApplicationException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean deleteAllSimContacts() {
+        return false;
     }
 
     public static boolean deletePhoneContact(ContentResolver resolver, String name) {

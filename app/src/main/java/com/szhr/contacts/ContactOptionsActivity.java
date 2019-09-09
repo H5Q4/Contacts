@@ -53,6 +53,11 @@ public class ContactOptionsActivity extends BaseListActivity {
             case 5:
                 intent.setClass(this, DeleteConfirmActivity.class);
                 startActivity(intent);
+                break;
+            case 6:
+                intent.setClass(this, SelectSimOrPhoneActivity.class);
+                intent.putExtra(SelectSimOrPhoneActivity.FOR_DELETE, true);
+                startActivity(intent);
             default:
                 break;
         }

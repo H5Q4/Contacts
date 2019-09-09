@@ -58,7 +58,7 @@ public class MainActivity extends BaseListActivity {
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;
             case 1:
-                startActivity(new Intent(MainActivity.this, AddContactActivity.class));
+                startActivity(new Intent(MainActivity.this, SelectSimOrPhoneActivity.class));
                 break;
             case 2: {
                 startActivity(new Intent(MainActivity.this, ContactsActivity.class));

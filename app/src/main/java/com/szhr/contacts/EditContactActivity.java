@@ -7,9 +7,10 @@ import com.szhr.contacts.base.BaseActivity;
 import com.szhr.contacts.model.Contact;
 import com.szhr.contacts.util.ContactOperations;
 
+import static com.szhr.contacts.SelectSimOrPhoneActivity.TYPE_SIM;
+
 public class EditContactActivity extends BaseActivity {
 
-    public static final String TYPE_SIM = "sim";
     private static final String TAG = EditContactActivity.class.getSimpleName();
     public static final String FOR_UPDATE = "update";
 
