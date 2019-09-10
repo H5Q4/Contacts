@@ -11,9 +11,8 @@ import static com.szhr.contacts.SelectSimOrPhoneActivity.TYPE_SIM;
 
 public class EditContactActivity extends BaseActivity {
 
-    private static final String TAG = EditContactActivity.class.getSimpleName();
     public static final String FOR_UPDATE = "update";
-
+    private static final String TAG = EditContactActivity.class.getSimpleName();
     private EditText nameEt;
     private EditText numberEt;
     private boolean forUpdate;
@@ -61,11 +60,8 @@ public class EditContactActivity extends BaseActivity {
                 result = ContactOperations.updatePhoneContact(getContentResolver(), contact.getDisplayName(), name, number);
             }
 
-            if (result) {
-                toastThenFinish("更新成功");
-            } else {
-                toastThenFinish("更新失败");
-            }
+            toastThenFinish(result ? "更新成功" : "更新失败");
+
         } else {
             forSim = getIntent().getBooleanExtra(TYPE_SIM, false);
 
@@ -75,11 +71,7 @@ public class EditContactActivity extends BaseActivity {
                 result = ContactOperations.insertPhoneContact(getContentResolver(), name, number);
             }
 
-            if (result) {
-                toastThenFinish("添加成功");
-            } else {
-                toastThenFinish("添加失败");
-            }
+            toastThenFinish(result ? "添加成功" : "添加失败");
         }
 
     }

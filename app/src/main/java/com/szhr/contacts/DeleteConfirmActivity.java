@@ -38,12 +38,8 @@ public class DeleteConfirmActivity extends ConfirmActivity {
                     ContactOperations.deleteAllPhoneContacts(getContentResolver());
         }
 
-        if (result) {
-            toastThenFinish("删除成功");
-        } else {
-            toastThenFinish("删除失败");
-        }
-    }
+        toastThenFinish(result ? "删除成功" : "删除失败");
 
+    }
 
 }

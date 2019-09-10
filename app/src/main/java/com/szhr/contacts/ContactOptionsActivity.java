@@ -9,6 +9,7 @@ import android.widget.SimpleAdapter;
 import com.szhr.contacts.base.BaseActivity;
 import com.szhr.contacts.base.BaseListActivity;
 import com.szhr.contacts.model.Contact;
+import com.szhr.contacts.util.ContactOperations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,8 +59,18 @@ public class ContactOptionsActivity extends BaseListActivity {
                 intent.setClass(this, SelectSimOrPhoneActivity.class);
                 intent.putExtra(SelectSimOrPhoneActivity.FOR_DELETE, true);
                 startActivity(intent);
+                break;
+            case 7:
+                duplicateContact();
+                break;
             default:
                 break;
         }
+    }
+
+    private void duplicateContact() {
+        boolean result = ContactOperations.insertPhoneContact(getContentResolver(), contact.getDisplayName(),
+                contact.getPhoneNumber());
+        toastThenFinish(result ? "复制成功" : "复制失败");
     }
 }
