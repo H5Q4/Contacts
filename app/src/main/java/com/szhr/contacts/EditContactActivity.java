@@ -50,27 +50,37 @@ public class EditContactActivity extends BaseActivity {
         String number = numberEt.getText().toString().trim();
 
         boolean forSim;
+        boolean result;
 
         if (forUpdate) {
             forSim = contact.isFromSim();
 
             if (forSim) {
-                ContactOperations.updateSimContact(getContentResolver(), contact.getDisplayName(), contact.getPhoneNumber(), name, number);
+                result = ContactOperations.updateSimContact(getContentResolver(), contact.getDisplayName(), contact.getPhoneNumber(), name, number);
             } else {
-                ContactOperations.updatePhoneContact(getContentResolver(), contact.getDisplayName(), name, number);
+                result = ContactOperations.updatePhoneContact(getContentResolver(), contact.getDisplayName(), name, number);
+            }
+
+            if (result) {
+                toastThenFinish("更新成功");
+            } else {
+                toastThenFinish("更新失败");
             }
         } else {
             forSim = getIntent().getBooleanExtra(TYPE_SIM, false);
 
             if (forSim) {
-                ContactOperations.insertSimContact(getContentResolver(), name, number);
+                result = ContactOperations.insertSimContact(getContentResolver(), name, number);
             } else {
-                ContactOperations.insertPhoneContact(getContentResolver(), name, number);
+                result = ContactOperations.insertPhoneContact(getContentResolver(), name, number);
+            }
+
+            if (result) {
+                toastThenFinish("添加成功");
+            } else {
+                toastThenFinish("添加失败");
             }
         }
-
-//        startActivity(new Intent(EditContactActivity.this, ContactsActivity.class));
-        finish();
 
     }
 

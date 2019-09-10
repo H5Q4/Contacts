@@ -2,7 +2,6 @@ package com.szhr.contacts;
 
 import android.os.Bundle;
 
-import com.szhr.contacts.base.BaseDialog;
 import com.szhr.contacts.base.ConfirmActivity;
 import com.szhr.contacts.model.Contact;
 import com.szhr.contacts.util.ContactOperations;
@@ -35,10 +34,15 @@ public class DeleteConfirmActivity extends ConfirmActivity {
         } else {
             boolean forSim = getIntent().getBooleanExtra(SelectSimOrPhoneActivity.TYPE_SIM, false);
             result = forSim ?
-                    ContactOperations.deleteAllSimContacts() :
+                    ContactOperations.deleteAllSimContacts(getContentResolver()) :
                     ContactOperations.deleteAllPhoneContacts(getContentResolver());
         }
 
+        if (result) {
+            toastThenFinish("删除成功");
+        } else {
+            toastThenFinish("删除失败");
+        }
     }
 
 

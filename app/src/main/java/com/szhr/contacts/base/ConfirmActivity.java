@@ -31,7 +31,7 @@ public abstract class ConfirmActivity extends BaseActivity {
     @Override
     protected void onClickDpadCenter() {
         onConfirm();
-        finish();
+//        finish();
 
     }
 }

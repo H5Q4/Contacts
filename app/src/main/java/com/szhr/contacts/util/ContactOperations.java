@@ -96,8 +96,11 @@ public class ContactOperations {
         return true;
     }
 
-    public static boolean deleteAllSimContacts() {
-        return false;
+    public static boolean deleteAllSimContacts(ContentResolver resolver) {
+        Uri simUri = Uri.parse("content://icc/adn");
+        int delete = resolver.delete(simUri, null, null);
+        Log.d("SimContact", "delete =" + delete);
+        return delete > 0;
     }
 
     public static boolean deletePhoneContact(ContentResolver resolver, String name) {

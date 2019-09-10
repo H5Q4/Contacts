@@ -2,9 +2,14 @@ package com.szhr.contacts.base;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Instrumentation;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -21,6 +26,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.szhr.contacts.R;
 
+import java.lang.ref.WeakReference;
+import java.util.TimerTask;
+
 @SuppressLint("Registered")
 public class BaseActivity extends Activity {
 
@@ -29,6 +37,10 @@ public class BaseActivity extends Activity {
     protected ImageView rightIv;
     protected TextView titleTv;
     protected TextView contentTv;
+
+    protected static Handler handler;
+
+    private static AlertDialog dialog;
 
 
 
@@ -46,11 +58,23 @@ public class BaseActivity extends Activity {
         rightIv = findViewById(R.id.rightIv);
         contentTv = findViewById(R.id.centerTv);
 
+        if (handler == null) {
+            handler = new BaseHandler(this);
+        }
+
     }
 
     @Override
     public void setContentView(int layoutResID) {
         LayoutInflater.from(this).inflate(layoutResID, contentLayout);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (handler != null) {
+            handler.removeCallbacksAndMessages(null);
+        }
+        super.onDestroy();
     }
 
     protected void setTitle(String title) {
@@ -89,5 +113,57 @@ public class BaseActivity extends Activity {
         // empty implementation
     }
 
+    protected void showDialog(String message, boolean alwaysShow, DialogInterface.OnDismissListener dismissListener){
+        View view = LayoutInflater.from(this).inflate(R.layout.base_dialog, null);
+
+        TextView textView = view.findViewById(R.id.text1);
+        textView.setText(message);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setCancelable(false); //返回键dismiss
+
+        dialog = builder.create();
+        dialog.setOnDismissListener(dismissListener);
+        //dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);//去掉圆角背景背后的棱角
+        dialog.setCanceledOnTouchOutside(false);   //失去焦点dismiss
+        dialog.show();
+
+        if(!alwaysShow) {
+           handler.postDelayed(new Runnable() {
+               @Override
+               public void run() {
+                   dismissDialog();
+               }
+           }, 2000);
+        }
+    }
+
+    protected void toastThenFinish(String msg) {
+        showDialog(msg, false, new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                finish();
+            }
+        });
+    }
+
+    protected void dismissDialog(){
+        if(dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
+    }
+
+
+    private static class BaseHandler extends Handler {
+
+        private WeakReference<Context> ctxRef;
+
+        BaseHandler(Context context) {
+            ctxRef = new WeakReference<>(context);
+        }
+
+    }
 
 }
