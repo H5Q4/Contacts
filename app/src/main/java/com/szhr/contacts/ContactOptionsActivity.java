@@ -42,6 +42,10 @@ public class ContactOptionsActivity extends BaseListActivity {
         intent.putExtra(KEY_CONTACT, contact);
 
         switch (position) {
+            case 2:
+                intent.setClass(this, SendMmsActivity.class);
+                startActivity(intent);
+                break;
             case 3:
                 intent.setClass(this, ShowContactDetailActivity.class);
                 startActivity(intent);

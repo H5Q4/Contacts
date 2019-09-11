@@ -2,6 +2,7 @@ package com.szhr.contacts;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,10 +11,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import com.szhr.contacts.base.BaseListActivity;
 import com.szhr.contacts.util.Constants;
@@ -77,7 +74,7 @@ public class MainActivity extends BaseListActivity {
     }
 
         @Override
-        protected void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data){
+        protected void onActivityResult ( int requestCode, int resultCode, Intent data){
             if (requestCode == REQUEST_CODE_LOCAL_NUMBER && resultCode == RESULT_OK) {
                 String localNumber = SharedPrefsUtils.getStringPreference(this, Constants.KEY_LOCAL_NUMBER);
                 if (TextUtils.isEmpty(localNumber)) {
@@ -91,11 +88,10 @@ public class MainActivity extends BaseListActivity {
 
         public void askForContactPermission () {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
 
                     // Should we show an explanation?
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                            Manifest.permission.READ_CONTACTS)) {
+                    if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
                         builder.setTitle("Contacts access needed");
                         builder.setPositiveButton(android.R.string.ok, null);
@@ -120,7 +116,7 @@ public class MainActivity extends BaseListActivity {
 
                         // No explanation needed, we can request the permission.
 
-                        ActivityCompat.requestPermissions(this,
+                        requestPermissions(
                                 new String[]{Manifest.permission.READ_CONTACTS,
                                         Manifest.permission.WRITE_CONTACTS},
                                 PERMISSION_REQUEST_CONTACT);

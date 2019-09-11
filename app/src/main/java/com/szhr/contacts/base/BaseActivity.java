@@ -148,6 +148,10 @@ public class BaseActivity extends Activity {
         });
     }
 
+    protected void toast(String msg) {
+        showDialog(msg, false, null);
+    }
+
     protected void dismissDialog(){
         if(dialog != null) {
             dialog.dismiss();
