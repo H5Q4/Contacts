@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Phonebook</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_add_entry">Add entry</string>
+    <string name="menu_display_all">Display all</string>
+    <string name="menu_storage_status">Storage status</string>
+    <string name="menu_owner_number">Owner number</string>
+    <string name="none">None</string>
+    <string name="accept">Accept</string>
+    <string name="input_name">Input name:</string>
+    <string name="save_to">Save to</string>
+    <string name="sim_card">SIM Card</string>
+    <string name="mobile_phone">Mobile Phone</string>
+    <string name="edit_content">Edit</string>
+    <string name="name">Name</string>
+    <string name="phone_number">Phone</string>
+    <string name="options">Options</string>
+    <string name="option_dial">Dial</string>
+    <string name="option_dial_with_ip">Dial with IP</string>
+    <string name="option_write_sms">Write SMS</string>
+    <string name="option_view">View</string>
+    <string name="option_edit">Edit</string>
+    <string name="option_delete_this_item">Delete this item</string>
+    <string name="option_delete_all">Delete all</string>
+    <string name="option_copy_this_item">Copy this item</string>
+    <string name="option_copy_all_items">Copy all items</string>
+    <string name="option_extra_copy">Extra copy</string>
+    <string name="option_send_vcard">Send vCard</string>
+    <string name="storage_status">Storage status</string>
+    <string name="placeholder_total_space_in_phone">In phone：%d</string>
+    <string name="placeholder_free_space">Free space：%d</string>
+    <string name="placeholder_used_space">Used space：%d</string>
+    <string name="placeholder_total_space_in_sim">In SIM：%d</string>
+    <string name="view_content">View</string>
+    <string name="delete_confirm">Delete?</string>
+    <string name="delete_all_confirm">Delete All？</string>
+</resources>
