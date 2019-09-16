@@ -55,6 +55,20 @@ public class ContactOperations {
 
     }
 
+    public static int getPhoneContactCount(ContentResolver resolver) {
+        String[] projection = {RawContacts._ID};
+        Cursor cursor = resolver.query(CommonDataKinds.Phone.CONTENT_URI,
+                projection, null, null, null);
+        if (cursor == null) {
+            return 0;
+        }
+
+        int count = cursor.getCount();
+        cursor.close();
+
+        return count;
+    }
+
     public static Contact querySimContacts(ContentResolver resolver) {
 
         String displayName;

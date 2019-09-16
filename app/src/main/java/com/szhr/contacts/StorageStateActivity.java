@@ -12,6 +12,7 @@ import com.android.internal.telephony.IIccPhoneBook;
 import com.android.internal.telephony.IccConstants;
 import com.android.os.ServiceManager;
 import com.szhr.contacts.base.BaseActivity;
+import com.szhr.contacts.util.ContactOperations;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,15 +47,11 @@ public class StorageStateActivity extends BaseActivity {
 //            e.printStackTrace();
 //        }
 
-        long totalInternalMemorySize = getTotalInternalMemorySize();
-        long availableInternalMemorySize = getAvailableInternalMemorySize();
+        int phoneContactCount = ContactOperations.getPhoneContactCount(getContentResolver());
 
-        phoneCapacityTv.setText(String.format(Locale.CHINA, "手机总空间：%s",
-                Formatter.formatFileSize(this, totalInternalMemorySize)));
-        phoneFreeTv.setText(String.format(Locale.CHINA, "剩余空间：%s",
-                Formatter.formatFileSize(this, availableInternalMemorySize)));
-        phoneUsedTv.setText(String.format(Locale.CHINA, "已用空间：%s",
-                Formatter.formatFileSize(this, totalInternalMemorySize - availableInternalMemorySize)));
+        phoneCapacityTv.setText(String.format(Locale.CHINA, "手机总空间：%d 条", 300));
+        phoneFreeTv.setText(String.format(Locale.CHINA, "剩余空间：%d 条", 300 - phoneContactCount));
+        phoneUsedTv.setText(String.format(Locale.CHINA, "已用空间：%d 条", phoneContactCount));
 
     }
 
