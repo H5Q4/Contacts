@@ -1,13 +1,16 @@
 package com.szhr.contacts;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -35,7 +38,11 @@ public class MainActivity extends BaseListActivity {
         final String[] data = {"查找联系人", "添加联系人", "显示全部", "存储器状态"};
         setListData(data);
 
-        String localNumber = SharedPrefsUtils.getStringPreference(this, Constants.KEY_LOCAL_NUMBER);
+        TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        String localNumber = null;
+        if (checkSelfPermission(Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            localNumber = tMgr.getLine1Number();
+        }
         String extra;
         if (TextUtils.isEmpty(localNumber)) {
             extra = "无";
@@ -88,7 +95,8 @@ public class MainActivity extends BaseListActivity {
 
         public void askForContactPermission () {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
+                        && checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
 
                     // Should we show an explanation?
                     if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
@@ -103,7 +111,8 @@ public class MainActivity extends BaseListActivity {
                                 requestPermissions(
                                         new String[]
                                                 {Manifest.permission.READ_CONTACTS,
-                                                        Manifest.permission.WRITE_CONTACTS}
+                                                        Manifest.permission.WRITE_CONTACTS,
+                                                Manifest.permission.READ_PHONE_STATE}
                                         , PERMISSION_REQUEST_CONTACT);
                             }
                         });
@@ -117,9 +126,11 @@ public class MainActivity extends BaseListActivity {
                         // No explanation needed, we can request the permission.
 
                         requestPermissions(
-                                new String[]{Manifest.permission.READ_CONTACTS,
-                                        Manifest.permission.WRITE_CONTACTS},
-                                PERMISSION_REQUEST_CONTACT);
+                                new String[]
+                                        {Manifest.permission.READ_CONTACTS,
+                                                Manifest.permission.WRITE_CONTACTS,
+                                                Manifest.permission.READ_PHONE_STATE}
+                                , PERMISSION_REQUEST_CONTACT);
 
                         // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                         // app-defined int constant. The callback method gets the
