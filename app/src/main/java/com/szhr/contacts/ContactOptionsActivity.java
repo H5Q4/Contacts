@@ -28,8 +28,12 @@ public class ContactOptionsActivity extends BaseListActivity {
 
         contact = (Contact) getIntent().getSerializableExtra(KEY_CONTACT);
 
-        final String[] data = {"拨号", "IP拨号", "写短信", "查看内容", "编辑", "删除当前记录", "删除全部记录", "复制当前记录"
-                , "复制全部记录", "高级复制", "发送名片"};
+        final String[] data = {getString(R.string.option_dial), getString(R.string.option_dial_with_ip),
+                getString(R.string.option_write_sms), getString(R.string.option_view),
+                getString(R.string.option_edit), getString(R.string.option_delete_this_item),
+                getString(R.string.option_delete_all), getString(R.string.option_copy_this_item),
+                getString(R.string.option_copy_all_items), getString(R.string.option_extra_copy),
+                getString(R.string.option_send_vcard)};
         setListData(data);
 
         setIndicatorType(INDICATOR_TYPE_CYCLE);

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="SIM卡总空间："
+        android:text="@string/placeholder_total_space_in_sim"
         android:textSize="18sp" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:text="已用空间："
+        android:text="@string/placeholder_used_space"
         android:textSize="18sp" />
 
     <TextView
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:text="剩余空间："
+        android:text="@string/placeholder_free_space"
         android:textSize="18sp" />
 
     <TextView
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="手机总空间："
+        android:text="@string/placeholder_total_space_in_phone"
         android:textSize="18sp" />
 
     <TextView
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:text="已用空间："
+        android:text="@string/placeholder_used_space"
         android:textSize="18sp"/>
 
     <TextView
@@ -58,6 +58,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
-        android:text="剩余空间："
+        android:text="@string/placeholder_free_space"
         android:textSize="18sp" />
 </LinearLayout>

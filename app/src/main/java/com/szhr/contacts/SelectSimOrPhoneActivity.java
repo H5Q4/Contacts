@@ -17,7 +17,7 @@ public class SelectSimOrPhoneActivity extends BaseListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTitle("存储到");
+        setTitle(getString(R.string.save_to));
 
         forDelete = getIntent().getBooleanExtra(FOR_DELETE, false);
 
@@ -25,7 +25,7 @@ public class SelectSimOrPhoneActivity extends BaseListActivity {
             setTitle("删除");
         }
 
-        final String[] data = {"SIM卡电话簿", "手机电话簿"};
+        final String[] data = {getString(R.string.sim_card), getString(R.string.mobile_phone)};
         setListData(data);
 
         setIndicatorType(INDICATOR_TYPE_INDEX);

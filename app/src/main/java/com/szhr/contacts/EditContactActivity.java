@@ -23,7 +23,7 @@ public class EditContactActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_contact);
 
-        setTitle("编辑内容");
+        setTitle(getString(R.string.edit_content));
 
         nameEt = findViewById(R.id.nameEt);
         numberEt = findViewById(R.id.numberEt);

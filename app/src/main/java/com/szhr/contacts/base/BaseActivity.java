@@ -54,6 +54,9 @@ public class BaseActivity extends Activity {
             handler = new BaseHandler(this);
         }
 
+        setTitle(getString(R.string.app_name));
+        leftTv.setText(R.string.accept);
+
     }
 
     @Override

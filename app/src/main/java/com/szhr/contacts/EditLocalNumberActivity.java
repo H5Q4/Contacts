@@ -17,7 +17,7 @@ public class EditLocalNumberActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_local_number);
-        setTitle("本机号码");
+        setTitle(getString(R.string.menu_owner_number));
 
         numberEt = findViewById(R.id.numberEt);
         String number = SharedPrefsUtils.getStringPreference(this, Constants.KEY_LOCAL_NUMBER);

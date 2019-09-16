@@ -35,7 +35,8 @@ public class MainActivity extends BaseListActivity {
     protected void onResume() {
         super.onResume();
 
-        final String[] data = {"查找联系人", "添加联系人", "显示全部", "存储器状态"};
+        final String[] data = {getString(R.string.menu_search), getString(R.string.menu_add_entry),
+                getString(R.string.menu_display_all), getString(R.string.menu_storage_status)};
         setListData(data);
 
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
@@ -45,12 +46,12 @@ public class MainActivity extends BaseListActivity {
         }
         String extra;
         if (TextUtils.isEmpty(localNumber)) {
-            extra = "无";
+            extra = getString(R.string.none);
         } else {
             extra = localNumber;
         }
 
-        addListItem("本机号码", extra);
+        addListItem(getString(R.string.menu_owner_number), extra);
 
         setIndicatorType(INDICATOR_TYPE_INDEX);
     }
@@ -72,8 +73,8 @@ public class MainActivity extends BaseListActivity {
                 startActivity(new Intent(MainActivity.this, StorageStateActivity.class));
                 break;
             case 4: {
-                startActivityForResult(new Intent(MainActivity.this, EditLocalNumberActivity.class),
-                        REQUEST_CODE_LOCAL_NUMBER);
+//                startActivityForResult(new Intent(MainActivity.this, EditLocalNumberActivity.class),
+//                        REQUEST_CODE_LOCAL_NUMBER);
             }
             default:
                 break;

@@ -16,7 +16,7 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        setTitle("查找联系人");
+        setTitle(getString(R.string.menu_search));
 
         nameEt = findViewById(R.id.nameEt);
     }

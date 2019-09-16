@@ -15,7 +15,7 @@ public class ShowContactDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_contact_detail);
 
-        setTitle("查看内容");
+        setTitle(getString(R.string.view_content));
         leftTv.setText("");
 
         Contact contact = (Contact) getIntent().getSerializableExtra(ContactOptionsActivity.KEY_CONTACT);

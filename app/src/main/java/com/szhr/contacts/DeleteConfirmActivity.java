@@ -18,7 +18,7 @@ public class DeleteConfirmActivity extends ConfirmActivity {
         forAll = getIntent().getBooleanExtra(FOR_ALL, false);
 
         if (forAll) {
-            setConfirmText("全部删除？");
+            setConfirmText(getString(R.string.delete_all_confirm));
         }
     }
 

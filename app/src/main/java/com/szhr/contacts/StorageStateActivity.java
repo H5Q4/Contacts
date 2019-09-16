@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.RemoteException;
 import android.os.StatFs;
-import android.text.format.Formatter;
 import android.widget.TextView;
 
 import com.android.internal.telephony.AdnRecord;
@@ -26,7 +25,7 @@ public class StorageStateActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storage_state);
 
-        setTitle("存储器状态");
+        setTitle(getString(R.string.storage_status));
         leftTv.setText("");
 
         TextView simCapacityTv = findViewById(R.id.simCapacityTv);
@@ -40,18 +39,18 @@ public class StorageStateActivity extends BaseActivity {
 //        try {
 //            int gsmPhonebookCapacity = ICCPhonebook.getGsmPhonebookCapacity();
 //            int gsmPhonebookSize = ICCPhonebook.getGsmPhonebookSize();
-//            simCapacityTv.setText(String.format(Locale.CHINA, "手机总空间：%d 条", gsmPhonebookCapacity));
-//            simFreeTv.setText(String.format(Locale.CHINA, "剩余空间：%d 条", gsmPhonebookCapacity - gsmPhonebookSize));
-//            simUsedTv.setText(String.format(Locale.CHINA, "已用空间：%d 条", gsmPhonebookSize));
+//            simCapacityTv.setText(String.format(Locale.CHINA, getString(R.string.placeholder_total_space_in_sim), gsmPhonebookCapacity));
+//            simFreeTv.setText(String.format(Locale.CHINA, getString(R.string.placeholder_free_space), gsmPhonebookCapacity - gsmPhonebookSize));
+//            simUsedTv.setText(String.format(Locale.CHINA, getString(R.string.placeholder_used_space), gsmPhonebookSize));
 //        } catch (RemoteException e) {
 //            e.printStackTrace();
 //        }
 
         int phoneContactCount = ContactOperations.getPhoneContactCount(getContentResolver());
 
-        phoneCapacityTv.setText(String.format(Locale.CHINA, "手机总空间：%d 条", 300));
-        phoneFreeTv.setText(String.format(Locale.CHINA, "剩余空间：%d 条", 300 - phoneContactCount));
-        phoneUsedTv.setText(String.format(Locale.CHINA, "已用空间：%d 条", phoneContactCount));
+        phoneCapacityTv.setText(String.format(Locale.CHINA, getString(R.string.placeholder_total_space_in_phone), 300));
+        phoneFreeTv.setText(String.format(Locale.CHINA, getString(R.string.placeholder_free_space), 300 - phoneContactCount));
+        phoneUsedTv.setText(String.format(Locale.CHINA, getString(R.string.placeholder_used_space), phoneContactCount));
 
     }
 

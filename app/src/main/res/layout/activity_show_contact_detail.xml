@@ -15,7 +15,7 @@
         android:layout_marginTop="16dp"
         android:drawableLeft="@drawable/ic_person"
         android:drawablePadding="8dp"
-        android:text="姓名"
+        android:text="@string/name"
         android:textSize="18sp" />
 
     <TextView
@@ -26,6 +26,6 @@
         android:layout_marginTop="8dp"
         android:drawableLeft="@drawable/ic_phone"
         android:drawablePadding="8dp"
-        android:text="电话号码"
+        android:text="@string/phone_number"
         android:textSize="18sp" />
 </LinearLayout>

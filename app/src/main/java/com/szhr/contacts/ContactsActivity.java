@@ -23,7 +23,7 @@ public class ContactsActivity extends BaseListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        leftTv.setText("选项");
+        leftTv.setText(getString(R.string.options));
 
     }
 
