@@ -71,14 +71,18 @@ public class ContactOptionsActivity extends BaseListActivity {
             case 7:
                 duplicateContact();
                 break;
+            case 8:
             default:
                 break;
         }
     }
 
     private void duplicateContact() {
-        boolean result = ContactOperations.insertPhoneContact(getContentResolver(), contact.getDisplayName(),
-                contact.getPhoneNumber());
-        toastThenFinish(result ? "复制成功" : "复制失败");
+        boolean result = contact.isFromSim() ?
+                ContactOperations.insertPhoneContact(getContentResolver(),
+                        contact.getDisplayName(), contact.getPhoneNumber())
+                : ContactOperations.insertSimContact(getContentResolver(),
+                contact.getDisplayName(), contact.getPhoneNumber());
+        toastThenFinish(result ? getString(R.string.copied_successfully) : getString(R.string.copy_failed));
     }
 }

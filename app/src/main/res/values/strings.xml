@@ -34,4 +34,11 @@
     <string name="view_content">查看内容</string>
     <string name="delete_confirm">删除?</string>
     <string name="delete_all_confirm">全部删除？</string>
+    <string name="copied_successfully">复制成功</string>
+    <string name="copy_failed">复制失败</string>
+    <string name="delete">删除</string>
+    <string name="copy">复制</string>
+    <string name="sim_to_phone">SIM卡到手机</string>
+    <string name="phone_to_sim">手机到SIM卡</string>
+    <string name="copying">正在复制</string>
 </resources>

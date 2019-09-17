@@ -35,4 +35,11 @@
     <string name="view_content">View</string>
     <string name="delete_confirm">Delete?</string>
     <string name="delete_all_confirm">Delete All？</string>
+    <string name="copied_successfully">Copied successfully</string>
+    <string name="copy_failed">Copy failed</string>
+    <string name="delete">Delete</string>
+    <string name="copy">Copy</string>
+    <string name="sim_to_phone">SIM to Phone</string>
+    <string name="phone_to_sim">Phone to SIM</string>
+    <string name="copying">Copying</string>
 </resources>

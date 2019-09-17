@@ -33,6 +33,7 @@ public class ContactsActivity extends BaseListActivity {
 
         String searchString = getIntent().getStringExtra(KEY_QUERY_PARAM);
 
+        // TODO query sim contacts
         contacts = ContactOperations.queryPhoneContacts(getContentResolver(), searchString);
         items.clear();
 

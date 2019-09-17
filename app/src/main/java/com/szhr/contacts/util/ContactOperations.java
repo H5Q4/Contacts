@@ -69,7 +69,7 @@ public class ContactOperations {
         return count;
     }
 
-    public static Contact querySimContacts(ContentResolver resolver) {
+    public static List<Contact> querySimContacts(ContentResolver resolver) {
 
         String displayName;
         String phoneNumber;
@@ -83,6 +83,8 @@ public class ContactOperations {
 
         Log.i("SimContact", "total: " + cursorSim.getCount());
 
+        List<Contact> items = new ArrayList<>();
+
         while (cursorSim.moveToNext()) {
             displayName = cursorSim.getString(cursorSim.getColumnIndex("name"));
             phoneNumber = cursorSim.getString(cursorSim.getColumnIndex("number"));
@@ -91,12 +93,12 @@ public class ContactOperations {
 
             contact = new Contact(displayName, phoneNumber);
             contact.setFromSim(true);
-
+            items.add(contact);
             Log.i("SimContact", "name: " + displayName + " phone: " + phoneNumber);
         }
         cursorSim.close();
 
-        return contact;
+        return items;
 
     }
 
