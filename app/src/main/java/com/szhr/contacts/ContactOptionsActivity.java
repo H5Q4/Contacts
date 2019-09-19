@@ -72,6 +72,15 @@ public class ContactOptionsActivity extends BaseListActivity {
                 duplicateContact();
                 break;
             case 8:
+                intent.setClass(this, SelectSimOrPhoneActivity.class);
+                intent.putExtra(SelectSimOrPhoneActivity.FOR_COPY, true);
+                startActivity(intent);
+                break;
+            case 9:
+                intent.setClass(this, SelectSimOrPhoneActivity.class);
+                intent.putExtra(SelectSimOrPhoneActivity.FOR_EXTRA_COPY, true);
+                startActivity(intent);
+                break;
             default:
                 break;
         }

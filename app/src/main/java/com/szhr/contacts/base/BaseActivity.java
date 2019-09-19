@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -32,7 +33,7 @@ public class BaseActivity extends Activity {
 
     protected static Handler handler;
 
-    private static AlertDialog dialog;
+    public AlertDialog dialog;
 
 
 
@@ -108,7 +109,7 @@ public class BaseActivity extends Activity {
         // empty implementation
     }
 
-    protected void showDialog(String message, boolean alwaysShow, DialogInterface.OnDismissListener dismissListener){
+    public void showDialog(String message, boolean alwaysShow, DialogInterface.OnDismissListener dismissListener){
         View view = LayoutInflater.from(this).inflate(R.layout.base_dialog, null);
 
         TextView textView = view.findViewById(R.id.text1);
@@ -134,7 +135,14 @@ public class BaseActivity extends Activity {
         }
     }
 
-    protected void toastThenFinish(String msg) {
+    public void changeDialogText(String text) {
+        Message message = Message.obtain();
+        message.what = BaseHandler.CHANGE_DIALOG_TEXT;
+        message.obj = text;
+        handler.sendMessage(message);
+    }
+
+    public void toastThenFinish(String msg) {
         showDialog(msg, false, new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
@@ -143,11 +151,11 @@ public class BaseActivity extends Activity {
         });
     }
 
-    protected void toast(String msg) {
+    public void toast(String msg) {
         showDialog(msg, false, null);
     }
 
-    protected void dismissDialog(){
+    public void dismissDialog(){
         if(dialog != null) {
             dialog.dismiss();
             dialog = null;
@@ -157,12 +165,25 @@ public class BaseActivity extends Activity {
 
     private static class BaseHandler extends Handler {
 
-        private WeakReference<Context> ctxRef;
+        public static final int CHANGE_DIALOG_TEXT = 1111;
 
-        BaseHandler(Context context) {
+        private WeakReference<BaseActivity> ctxRef;
+
+        BaseHandler(BaseActivity context) {
             ctxRef = new WeakReference<>(context);
         }
 
+        @Override
+        public void handleMessage(Message msg) {
+            int what = msg.what;
+            if (what == CHANGE_DIALOG_TEXT) {	//update
+                if (ctxRef.get() != null && ctxRef.get().dialog != null) {
+                    TextView tv = (ctxRef.get().dialog).findViewById(R.id.text1);
+                    tv.setText((String) msg.obj);
+                }
+
+            }
+        }
     }
 
 }

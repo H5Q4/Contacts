@@ -69,21 +69,27 @@ public class ContactOperations {
         return count;
     }
 
-    public static List<Contact> querySimContacts(ContentResolver resolver) {
+    public static List<Contact> querySimContacts(ContentResolver resolver, String queryString) {
 
         String displayName;
         String phoneNumber;
         Contact contact = null;
+        List<Contact> items = new ArrayList<>();
 
         Uri simUri = Uri.parse("content://icc/adn");
         String[] projection = {"name", "number"};
-        Cursor cursorSim = resolver.query(simUri, projection, null, null, "name");
+        String selection = null;
+        String[] selectionArgs = null;
 
-        if (cursorSim == null) return null;
+        if (!TextUtils.isEmpty(queryString)) {
+            selection = "name LIKE ?";
+            selectionArgs = new String[]{"%" + queryString + "%"};
+        }
+        Cursor cursorSim = resolver.query(simUri, projection, selection, selectionArgs, "name");
+
+        if (cursorSim == null) return items;
 
         Log.i("SimContact", "total: " + cursorSim.getCount());
-
-        List<Contact> items = new ArrayList<>();
 
         while (cursorSim.moveToNext()) {
             displayName = cursorSim.getString(cursorSim.getColumnIndex("name"));

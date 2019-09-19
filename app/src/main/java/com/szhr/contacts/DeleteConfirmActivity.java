@@ -38,7 +38,7 @@ public class DeleteConfirmActivity extends ConfirmActivity {
                     ContactOperations.deleteAllPhoneContacts(getContentResolver());
         }
 
-        toastThenFinish(result ? "删除成功" : "删除失败");
+        toastThenFinish(result ? getString(R.string.delete_successfully) : getString(R.string.delete_failed));
 
     }
 

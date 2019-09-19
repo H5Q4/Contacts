@@ -41,4 +41,12 @@
     <string name="sim_to_phone">SIM卡到手机</string>
     <string name="phone_to_sim">手机到SIM卡</string>
     <string name="copying">正在复制</string>
+    <string name="start_index">起始序号：</string>
+    <string name="end_index">结束序号：</string>
+    <string name="loading">加载中...</string>
+    <string name="delete_successfully">删除成功</string>
+    <string name="delete_failed">删除失败</string>
+    <string name="copy_finished">复制完成</string>
+    <string name="placeholder_copying">正在复制： %d / %d</string>
+    <string name="no_content">无内容</string>
 </resources>
