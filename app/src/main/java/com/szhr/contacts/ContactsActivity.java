@@ -90,7 +90,7 @@ public class ContactsActivity extends BaseListActivity {
         @Override
         protected void onPreExecute() {
             if (ctxRef.get() != null) {
-                ctxRef.get().showDialog(ctxRef.get().getString(R.string.loading), true, null);
+//                ctxRef.get().showDialog(ctxRef.get().getString(R.string.loading), true, null);
             }
         }
 

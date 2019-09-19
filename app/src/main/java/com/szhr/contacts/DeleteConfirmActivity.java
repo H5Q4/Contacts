@@ -26,16 +26,21 @@ public class DeleteConfirmActivity extends ConfirmActivity {
     protected void onConfirm() {
         boolean result;
 
-        if (!forAll) {
-            Contact contact = (Contact) getIntent().getSerializableExtra(ContactOptionsActivity.KEY_CONTACT);
-            result = contact.isFromSim() ?
-                    ContactOperations.deleteSimContact(getContentResolver(), contact.getDisplayName(), contact.getPhoneNumber()) :
-                    ContactOperations.deletePhoneContact(getContentResolver(), contact.getDisplayName());
-        } else {
-            boolean forSim = getIntent().getBooleanExtra(SelectSimOrPhoneActivity.TYPE_SIM, false);
-            result = forSim ?
-                    ContactOperations.deleteAllSimContacts(getContentResolver()) :
-                    ContactOperations.deleteAllPhoneContacts(getContentResolver());
+        try {
+            if (!forAll) {
+                Contact contact = (Contact) getIntent().getSerializableExtra(ContactOptionsActivity.KEY_CONTACT);
+                result = contact.isFromSim() ?
+                        ContactOperations.deleteSimContact(getContentResolver(), contact.getDisplayName(), contact.getPhoneNumber()) :
+                        ContactOperations.deletePhoneContact(getContentResolver(), contact.getDisplayName());
+            } else {
+                boolean forSim = getIntent().getBooleanExtra(SelectSimOrPhoneActivity.TYPE_SIM, false);
+                result = forSim ?
+                        ContactOperations.deleteAllSimContacts(getContentResolver()) :
+                        ContactOperations.deleteAllPhoneContacts(getContentResolver());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = false;
         }
 
         toastThenFinish(result ? getString(R.string.delete_successfully) : getString(R.string.delete_failed));
