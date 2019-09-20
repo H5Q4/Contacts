@@ -78,14 +78,8 @@ public class ContactOperations {
 
         Uri simUri = Uri.parse("content://icc/adn");
         String[] projection = {"name", "number"};
-        String selection = null;
-        String[] selectionArgs = null;
 
-        if (!TextUtils.isEmpty(queryString)) {
-            selection = "name LIKE ?";
-            selectionArgs = new String[]{"%" + queryString + "%"};
-        }
-        Cursor cursorSim = resolver.query(simUri, projection, selection, selectionArgs, "name");
+        Cursor cursorSim = resolver.query(simUri, projection, null, null, "name");
 
         if (cursorSim == null) return items;
 
@@ -97,10 +91,12 @@ public class ContactOperations {
             phoneNumber = phoneNumber.replaceAll("\\D", "").replaceAll("&", "");
             displayName = displayName.replace("|", "");
 
+            if (queryString != null && !displayName.toLowerCase().contains(queryString.toLowerCase())) {
+                continue;
+            }
             contact = new Contact(displayName, phoneNumber);
             contact.setFromSim(true);
             items.add(contact);
-            Log.i("SimContact", "name: " + displayName + " phone: " + phoneNumber);
         }
         cursorSim.close();
 
@@ -125,9 +121,22 @@ public class ContactOperations {
     }
 
     public static boolean deleteAllSimContacts(ContentResolver resolver) {
-        Uri simUri = Uri.parse("content://icc/adn");
-        int delete = resolver.delete(simUri, null, null);
-        Log.d("SimContact", "delete =" + delete);
+        Uri simUri = Uri.parse("content://icc/adn/");
+        Cursor c = resolver.query(simUri, null, null, null, null);
+        if (c == null) return false;
+
+        int delete = 0;
+        while (c.moveToNext()) {
+            delete += resolver.delete(
+                    simUri,
+                    "tag='" + c.getString(c.getColumnIndex("name")) +
+                            "' AND " +
+                            "number='" + c.getString(c.getColumnIndex("number")) + "'"
+                    , null);
+        }
+
+        c.close();
+
         return delete > 0;
     }
 

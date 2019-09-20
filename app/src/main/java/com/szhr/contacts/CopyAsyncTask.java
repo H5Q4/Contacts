@@ -46,7 +46,7 @@ public class CopyAsyncTask extends AsyncTask<Integer, Integer, Exception> {
                 if (contacts == null) return null;
 
                 int count = 0;
-                if (endIndex > contacts.size()) {
+                if (endIndex > contacts.size() || endIndex == 0) {
                     endIndex = contacts.size();
                 }
                 for (int i = startIndex; i < endIndex;  i++) {
@@ -55,7 +55,7 @@ public class CopyAsyncTask extends AsyncTask<Integer, Integer, Exception> {
                         boolean b = simToPhone ?
                                 ContactOperations.insertPhoneContact(ctxRef.get().getContentResolver(),
                                         contact.getDisplayName(), contact.getPhoneNumber()) :
-                                ContactOperations.insertPhoneContact(ctxRef.get().getContentResolver(),
+                                ContactOperations.insertSimContact(ctxRef.get().getContentResolver(),
                                         contact.getDisplayName(), contact.getPhoneNumber());
                         if (b) {
                             publishProgress(count + 1, contacts.size());
@@ -82,6 +82,7 @@ public class CopyAsyncTask extends AsyncTask<Integer, Integer, Exception> {
     @Override
     protected void onPostExecute(Exception e) {
         if (ctxRef.get() != null) {
+            ctxRef.get().dismissDialog();
             ctxRef.get().toastThenFinish(e == null ?
                     ctxRef.get().getString(R.string.copy_finished) :
                     ctxRef.get().getString(R.string.copy_failed));
