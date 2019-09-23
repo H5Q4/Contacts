@@ -29,6 +29,7 @@ public class BaseListActivity extends BaseActivity {
     public static final String ITEM_EXTRA = "extra";
 
     protected ListView listView;
+    protected TextView emptyView;
     protected int currentSelectedPosition;
     private View lastSelectedView;
 
@@ -41,7 +42,7 @@ public class BaseListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_list);
-
+        emptyView = findViewById(R.id.empty);
         listView = findViewById(R.id.listView);
         listView.setItemsCanFocus(true);
 
@@ -111,6 +112,9 @@ public class BaseListActivity extends BaseActivity {
     }
 
     protected void notifyDataSetChanged() {
+        if (items.isEmpty()) {
+            listView.setEmptyView(emptyView);
+        }
         adapter.notifyDataSetChanged();
     }
 
