@@ -6,7 +6,7 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="16dp"
+        android:layout_height="20dp"
         android:background="@drawable/shape_dialog_top"/>
 
     <TextView
@@ -14,13 +14,13 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:textSize="18sp"
-        android:textColor="@color/colorThemeBg"
-        android:background="@color/colorControlHighlight"
+        android:textColor="@android:color/black"
+        android:background="@android:color/white"
         android:gravity="center_vertical|center_horizontal"
         android:text="消息"/>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="16dp"
+        android:layout_height="20dp"
         android:background="@drawable/shape_dialog_bottom"/>
 </LinearLayout>

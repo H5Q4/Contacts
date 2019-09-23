@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:bottomLeftRadius="16dp" android:bottomRightRadius="16dp"/>
     <!--实现应用背景颜色渐变-->
     <gradient
-        android:startColor="@color/colorPrimaryDark"
-        android:endColor="@color/colorThemeBg"
+        android:startColor="@color/colorIndexBg"
+        android:endColor="@color/colorControlHighlight"
         android:angle="270"/>
 </shape>

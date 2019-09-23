@@ -4,8 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#ccffffff</color>
     <color name="colorActiveMenuBg">#ccffffff</color>
-    <color name="colorControlHighlight">#6cdef4</color>
-    <color name="colorIndexBg">#ff0099cc</color>
+    <color name="colorControlHighlight">#00BCD4</color>
+    <color name="colorIndexBg">#2196F3</color>
     <color name="colorThemeBg">#604775</color>
     <color name="colorTopBottomBg">#6E4775</color>
     <color name="colorExtraInfo">#ECAAD7</color>
