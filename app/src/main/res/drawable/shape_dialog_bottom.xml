@@ -3,7 +3,7 @@
     <corners android:bottomLeftRadius="16dp" android:bottomRightRadius="16dp"/>
     <!--实现应用背景颜色渐变-->
     <gradient
-        android:startColor="@color/colorIndexBg"
+        android:startColor="#3f51b5"
         android:endColor="@color/colorControlHighlight"
         android:angle="270"/>
 </shape>

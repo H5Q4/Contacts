@@ -5,6 +5,6 @@
     <!--实现应用背景颜色渐变-->
     <gradient
         android:startColor="@color/colorControlHighlight"
-        android:endColor="@color/colorIndexBg"
+        android:endColor="#3f51b5"
         android:angle="90"/>
 </shape>
