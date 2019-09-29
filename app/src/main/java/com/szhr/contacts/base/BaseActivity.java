@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Instrumentation;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,7 +28,7 @@ public class BaseActivity extends Activity {
     protected TextView leftTv;
     protected ImageView rightIv;
     protected TextView titleTv;
-    protected TextView contentTv;
+    protected TextView centerTv;
 
     protected static Handler handler;
 
@@ -49,7 +48,7 @@ public class BaseActivity extends Activity {
         titleTv = findViewById(R.id.titleTv);
         leftTv = findViewById(R.id.leftTv);
         rightIv = findViewById(R.id.rightIv);
-        contentTv = findViewById(R.id.centerTv);
+        centerTv = findViewById(R.id.centerTv);
 
         if (handler == null) {
             handler = new BaseHandler(this);
