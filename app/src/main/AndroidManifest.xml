@@ -28,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".sms.SendSmsOptionsActivity" />
+        <activity android:name=".sms.InputPhoneNoActivity" />
     </application>
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />

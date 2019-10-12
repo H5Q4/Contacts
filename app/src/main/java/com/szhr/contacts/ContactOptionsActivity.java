@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.szhr.contacts.base.BaseListActivity;
 import com.szhr.contacts.model.Contact;
+import com.szhr.contacts.sms.InputPhoneNoActivity;
 import com.szhr.contacts.sms.SendSmsActivity;
 import com.szhr.contacts.util.ContactOperations;
 
@@ -72,9 +73,11 @@ public class ContactOptionsActivity extends BaseListActivity {
                 break;
             case 9:
                 intent.setClass(this, SelectSimOrPhoneActivity.class);
-                intent.putExtra(SelectSimOrPhoneActivity.FOR_EXTRA_COPY, true);
                 startActivity(intent);
                 break;
+            case 10:
+                intent.setClass(this, InputPhoneNoActivity.class);
+                startActivity(intent);
             default:
                 break;
         }

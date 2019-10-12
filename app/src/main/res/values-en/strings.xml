@@ -54,4 +54,7 @@
     <string name="sms_send_only">仅发送</string>
     <string name="sms_save_only">仅保存</string>
     <string name="sms_send_and_save">发送并保存</string>
+    <string name="invalid_input">非法输入</string>
+    <string name="find">查找</string>
+    <string name="input_phone_no">请输入电话号码：</string>
 </resources>

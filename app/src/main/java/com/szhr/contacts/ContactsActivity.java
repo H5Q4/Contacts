@@ -7,8 +7,11 @@ import android.view.View;
 
 import com.szhr.contacts.base.BaseListActivity;
 import com.szhr.contacts.model.Contact;
+import com.szhr.contacts.sms.InputPhoneNoActivity;
+import com.szhr.contacts.sms.SmsOperations;
 import com.szhr.contacts.util.ContactOperations;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,12 +27,17 @@ public class ContactsActivity extends BaseListActivity {
 
     private List<Contact> contacts;
     private QueryAsyncTask queryAsyncTask;
+    private boolean sendVcard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        leftTv.setText(getString(R.string.options));
+        sendVcard = getIntent().getBooleanExtra(InputPhoneNoActivity.EXTRA_SEND_VCARD, false);
+
+        if (!sendVcard) {
+            leftTv.setText(getString(R.string.options));
+        }
 
     }
 
@@ -71,6 +79,18 @@ public class ContactsActivity extends BaseListActivity {
 
     @Override
     protected void onClickListItem(View view, int position) {
+
+        if (sendVcard) {
+            Contact contact = (Contact) getIntent().getSerializableExtra(ContactOptionsActivity.KEY_CONTACT);
+            String body = contact.getDisplayName() + " : " + contact.getPhoneNumber();
+
+            SmsOperations.sendMessage(this, contacts.get(position).getPhoneNumber(),body, false);
+
+            finish();
+
+            return;
+        }
+
         Intent intent = new Intent(ContactsActivity.this, ContactOptionsActivity.class);
         intent.putExtra(ContactOptionsActivity.KEY_CONTACT, contacts.get(position));
         startActivity(intent);
