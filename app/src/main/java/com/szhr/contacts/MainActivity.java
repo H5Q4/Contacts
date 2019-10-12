@@ -97,7 +97,8 @@ public class MainActivity extends BaseListActivity {
         public void askForContactPermission () {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED
-                        && checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                        && checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+                && checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
 
                     // Should we show an explanation?
                     if (shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS)) {
@@ -113,6 +114,7 @@ public class MainActivity extends BaseListActivity {
                                         new String[]
                                                 {Manifest.permission.READ_CONTACTS,
                                                         Manifest.permission.WRITE_CONTACTS,
+                                                        Manifest.permission.SEND_SMS,
                                                 Manifest.permission.READ_PHONE_STATE}
                                         , PERMISSION_REQUEST_CONTACT);
                             }
@@ -130,6 +132,7 @@ public class MainActivity extends BaseListActivity {
                                 new String[]
                                         {Manifest.permission.READ_CONTACTS,
                                                 Manifest.permission.WRITE_CONTACTS,
+                                                Manifest.permission.SEND_SMS,
                                                 Manifest.permission.READ_PHONE_STATE}
                                 , PERMISSION_REQUEST_CONTACT);
 

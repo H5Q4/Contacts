@@ -40,10 +40,6 @@ public class ContactsActivity extends BaseListActivity {
         String searchString = getIntent().getStringExtra(KEY_QUERY_PARAM);
         queryAsyncTask = new QueryAsyncTask(this);
         queryAsyncTask.execute(searchString);
-
-
-        setIndicatorType(INDICATOR_TYPE_CUSTOM);
-
     }
 
     @Override
@@ -65,7 +61,7 @@ public class ContactsActivity extends BaseListActivity {
             items.add(item);
         }
 
-        notifyDataSetChanged();
+        setIndicatorType(INDICATOR_TYPE_CUSTOM);
     }
 
     @Override

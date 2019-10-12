@@ -3,18 +3,11 @@ package com.szhr.contacts;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.SimpleAdapter;
 
-import com.szhr.contacts.base.BaseActivity;
 import com.szhr.contacts.base.BaseListActivity;
 import com.szhr.contacts.model.Contact;
+import com.szhr.contacts.sms.SendSmsActivity;
 import com.szhr.contacts.util.ContactOperations;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ContactOptionsActivity extends BaseListActivity {
 
@@ -47,7 +40,8 @@ public class ContactOptionsActivity extends BaseListActivity {
 
         switch (position) {
             case 2:
-                intent.setClass(this, SendMmsActivity.class);
+                intent.setClass(this, SendSmsActivity.class);
+                intent.putExtra(SendSmsActivity.EXTRA_SMS_RECEIVER, contact.getPhoneNumber());
                 startActivity(intent);
                 break;
             case 3:
