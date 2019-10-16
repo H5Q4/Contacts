@@ -47,7 +47,7 @@
     <string name="delete_successfully">删除成功</string>
     <string name="delete_failed">删除失败</string>
     <string name="copy_finished">复制完成</string>
-    <string name="placeholder_copying">正在复制： %d / %d</string>
+    <string name="placeholder_copying">正在复制： %1$d / %2$d</string>
     <string name="no_content">无内容</string>
     <string name="write_sms">写短信</string>
     <string name="sms_send_only">仅发送</string>
@@ -56,4 +56,6 @@
     <string name="invalid_input">非法输入</string>
     <string name="find">查找</string>
     <string name="input_phone_no">请输入电话号码：</string>
+    <string name="confirm">确定</string>
+    <string name="input_owner_number">输入本机号码：</string>
 </resources>
