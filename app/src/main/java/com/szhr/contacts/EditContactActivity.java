@@ -1,6 +1,7 @@
 package com.szhr.contacts;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.EditText;
 
 import com.szhr.contacts.base.BaseActivity;
@@ -12,6 +13,7 @@ import static com.szhr.contacts.SelectSimOrPhoneActivity.TYPE_SIM;
 public class EditContactActivity extends BaseActivity {
 
     public static final String FOR_UPDATE = "update";
+    public static final String KEY_NUMBER = "number";
     private static final String TAG = EditContactActivity.class.getSimpleName();
     private EditText nameEt;
     private EditText numberEt;
@@ -37,6 +39,12 @@ public class EditContactActivity extends BaseActivity {
                 numberEt.setText(contact.getPhoneNumber());
 
                 nameEt.setSelection(contact.getDisplayName().length());
+            }
+        } else {
+            String number = getIntent().getStringExtra(KEY_NUMBER);
+            if (!TextUtils.isEmpty(number)) {
+                numberEt.setText(number);
+                nameEt.requestFocus();
             }
         }
     }

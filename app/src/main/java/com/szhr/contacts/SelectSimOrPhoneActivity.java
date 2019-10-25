@@ -2,6 +2,7 @@ package com.szhr.contacts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.szhr.contacts.base.BaseListActivity;
@@ -59,6 +60,10 @@ public class SelectSimOrPhoneActivity extends BaseListActivity {
         if (forExtraCopy) {
             intent.setClass(SelectSimOrPhoneActivity.this, ExtraCopyActivity.class);
         } else if (!forDelete) {
+            String number = getIntent().getStringExtra("number");
+            if (!TextUtils.isEmpty(number)) {
+                intent.putExtra(EditContactActivity.KEY_NUMBER, number);
+            }
             intent.setClass(SelectSimOrPhoneActivity.this, EditContactActivity.class);
         } else {
             intent.putExtra(DeleteConfirmActivity.FOR_ALL, true);

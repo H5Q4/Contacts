@@ -16,7 +16,12 @@
         <activity android:name=".StorageStateActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".EditContactActivity" />
-        <activity android:name=".SelectSimOrPhoneActivity" />
+        <activity android:name=".SelectSimOrPhoneActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.hr.SAVE_CONTACT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".EditLocalNumberActivity" />
         <activity android:name=".ContactOptionsActivity" />
         <activity android:name=".ContactsActivity" />
